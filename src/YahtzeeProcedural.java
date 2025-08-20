@@ -4,6 +4,8 @@ Auteur : Aedan Bélet
 Date : 20.08.2025
  */
 
+import java.util.Scanner;
+
 public class YahtzeeProcedural {
     /**
      * Lance un dé qui retourne un nombre aléatoire.
@@ -40,7 +42,16 @@ public class YahtzeeProcedural {
         }
     }
 
+    public static void relancerDe() {
+afficherDe(lancerPlusieursDe());
+    }
+
     public static void main(String[] args) {
         afficherDe(lancerPlusieursDe());
+        System.out.println("\nCombien voulez-vous relancer de jet ? ");
+        Scanner nombreRelance = new Scanner(System.in);
+        nombreRelance.nextInt();
+        System.out.println("Quel jet voulez-vous relancer ? ");
+        Scanner jetRelancer = new Scanner (System.in)
     }
 }
