@@ -1,36 +1,46 @@
-import java.util.Arrays;
+/*
+Projet : jeu du Yahtzee
+Auteur : Aedan Bélet
+Date : 20.08.2025
+ */
 
 public class YahtzeeProcedural {
     /**
      * Lance un dé qui retourne un nombre aléatoire.
+     *
      * @return un nombre aléatoire de 1 à nombre de face défini.
      */
-    public static int De (){
-         int nombreFace = 6;
+    public static int lancerDe() {
+        int nombreFace = 6;
 
         return (int) (Math.random() * nombreFace) + 1;
     }
 
     /**
      * Liste contenant le nombre de dé au nombre aléatoire.
+     *
      * @return les différent
      */
-    public static int[] tableau() {
-       int[] nombreDe =  new int[5];
-       for (int lancer = 0; lancer < nombreDe.length; lancer++) {
-           nombreDe[lancer] = De();
-       }
+    public static int[] lancerPlusieursDe() {
+        int[] nombreDe = new int[5];
+        for (int lancer = 0; lancer < nombreDe.length; lancer++) {
+            nombreDe[lancer] = lancerDe();
+        }
         return nombreDe;
     }
 
-    public static void afficherDe(int[] listeDe){
-        for (int afficher = 0; afficher < tableau().length; afficher++) {
-            System.out.print("Jet " + (afficher + 1) + " : " +  listeDe[afficher] + "\n");
+    /**
+     * Permet d'afficher plus proprement les jet de dés.
+     *
+     * @param listeDe garde en mémoire la liste des jets pour les afficher dans la console.
+     */
+    public static void afficherDe(int[] listeDe) {
+        for (int afficher = 0; afficher < lancerPlusieursDe().length; afficher++) {
+            System.out.print("Jet " + (afficher + 1) + " : " + listeDe[afficher] + "\n");
         }
     }
 
     public static void main(String[] args) {
-        afficherDe(tableau());
+        afficherDe(lancerPlusieursDe());
     }
-
 }
