@@ -48,10 +48,10 @@ afficherDe(lancerPlusieursDe());
 
     public static void main(String[] args) {
         afficherDe(lancerPlusieursDe());
-        System.out.println("\nCombien voulez-vous relancer de jet ? ");
-        Scanner nombreRelance = new Scanner(System.in);
-        nombreRelance.nextInt();
         System.out.println("Quel jet voulez-vous relancer ? ");
-        Scanner jetRelancer = new Scanner (System.in)
+        Scanner jetRelancer = new Scanner (System.in);
+        jetRelancer.nextInt();
+        System.out.println("Jet à relancer : " + jetRelancer.nextInt());
+
     }
 }
