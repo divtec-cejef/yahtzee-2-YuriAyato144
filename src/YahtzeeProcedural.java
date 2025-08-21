@@ -7,6 +7,20 @@ Date : 20.08.2025
 import java.util.Scanner;
 
 public class YahtzeeProcedural {
+
+
+    public static int[] affichageConsole() {
+        System.out.println("Quel jet voulez-vous relancer ? ");
+        Scanner jetRelancer = new Scanner(System.in);
+        String ligne = jetRelancer.nextLine();
+        String[] parties = ligne.split(" ");
+        int[] choix = new int[parties.length];
+        for (int i = 0; i < parties.length; i++) {
+            choix[i] = Integer.parseInt(parties[i]);
+        }
+        return choix;
+    }
+
     /**
      * Lance un dé qui retourne un nombre aléatoire.
      *
@@ -42,13 +56,10 @@ public class YahtzeeProcedural {
         }
     }
 
-    public static void relancerDe() {
-        afficherDe(lancerPlusieursDe());
-        int[] listeDe = lancerPlusieursDe();
-        for (int afficher = 0; afficher < lancerDe(); afficher++) {
-
-            switch (lancerDe()) {
-
+    public static void relancerDe(int[] listeDe) {
+        int[] choix = affichageConsole();
+        for (int i = 0; i < choix.length; i++) {
+            switch (choix[i]) {
                 case 1:
                     listeDe[0] = lancerDe();
                     break;
@@ -64,17 +75,19 @@ public class YahtzeeProcedural {
                 case 5:
                     listeDe[4] = lancerDe();
                     break;
+                default:
+                    System.out.println("Numéro de dé invalide : " + choix[i]);
             }
         }
+        System.out.println("Nouveaux jet : ");
+        afficherDe(listeDe);
     }
 
     public static void main(String[] args) {
-        afficherDe(lancerPlusieursDe());
-        System.out.println("Quel jet voulez-vous relancer ? ");
-        Scanner jetRelancer = new Scanner(System.in);
-        System.out.println("Jet à relancer : " + jetRelancer.nextLine());
-        System.out.println("Nouveaux jet : ");
-        relancerDe();
+        int[] des = lancerPlusieursDe();
+        afficherDe(des);
+        affichageConsole();
+        relancerDe(des);
     }
 }
 
