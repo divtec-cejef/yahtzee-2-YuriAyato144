@@ -44,11 +44,28 @@ public class YahtzeeProcedural {
 
     public static void relancerDe() {
         afficherDe(lancerPlusieursDe());
+        int[] listeDe = lancerPlusieursDe();
+        for (int afficher = 0; afficher < lancerDe(); afficher++) {
 
-    }
+            switch (lancerDe()) {
 
-    public static void nombreRelencement() {
-
+                case 1:
+                    listeDe[0] = lancerDe();
+                    break;
+                case 2:
+                    listeDe[1] = lancerDe();
+                    break;
+                case 3:
+                    listeDe[2] = lancerDe();
+                    break;
+                case 4:
+                    listeDe[3] = lancerDe();
+                    break;
+                case 5:
+                    listeDe[4] = lancerDe();
+                    break;
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -57,6 +74,7 @@ public class YahtzeeProcedural {
         Scanner jetRelancer = new Scanner(System.in);
         System.out.println("Jet à relancer : " + jetRelancer.nextLine());
         System.out.println("Nouveaux jet : ");
-
+        relancerDe();
     }
 }
+
