@@ -8,17 +8,21 @@ import java.util.Scanner;
 
 public class YahtzeeProcedural {
 
-
-    public static int[] affichageConsole() {
-        System.out.println("Quel jet voulez-vous relancer ? ");
+    /**
+     * Affiche du text dans la console et demande à l'utilisateur s'il veut relancer.
+     *
+     * @return le ou les dés que l'utilisateur veut relancer.
+     */
+    public static int[] demandeRelancementDe() {
+        System.out.println("Quel jet voulez-vous relancer ? (0 pour finir)");
         Scanner jetRelancer = new Scanner(System.in);
         String ligne = jetRelancer.nextLine();
         String[] parties = ligne.split(" ");
-        int[] choix = new int[parties.length];
+        int[] index = new int[parties.length];
         for (int i = 0; i < parties.length; i++) {
-            choix[i] = Integer.parseInt(parties[i]);
+            index[i] = Integer.parseInt(parties[i]) - 1;
         }
-        return choix;
+        return index;
     }
 
     /**
@@ -51,43 +55,40 @@ public class YahtzeeProcedural {
      * @param listeDe garde en mémoire la liste des jets pour les afficher dans la console.
      */
     public static void afficherDe(int[] listeDe) {
-        for (int afficher = 0; afficher < lancerPlusieursDe().length; afficher++) {
+        for (int afficher = 0; afficher < listeDe.length; afficher++) {
             System.out.print("Jet " + (afficher + 1) + " : " + listeDe[afficher] + "\n");
         }
     }
 
+    /**
+     * Permet de relancer le ou les dés que l'utilisateur à choisi.
+     *
+     * @param listeDe permet de garder en mémoire la nouvelle face du dé:
+     */
     public static void relancerDe(int[] listeDe) {
-        int[] choix = affichageConsole();
+        int[] choix = demandeRelancementDe();
         for (int i = 0; i < choix.length; i++) {
-            switch (choix[i]) {
-                case 1:
-                    listeDe[0] = lancerDe();
-                    break;
-                case 2:
-                    listeDe[1] = lancerDe();
-                    break;
-                case 3:
-                    listeDe[2] = lancerDe();
-                    break;
-                case 4:
-                    listeDe[3] = lancerDe();
-                    break;
-                case 5:
-                    listeDe[4] = lancerDe();
-                    break;
-                default:
-                    System.out.println("Numéro de dé invalide : " + choix[i]);
+            int index = choix[i];
+            if (index >= 0 && index < listeDe.length) {
+                listeDe[index] = lancerDe();
+            } else {
+                System.out.println("Numéro de dé invalide : " + (index + 1));
             }
         }
-        System.out.println("Nouveaux jet : ");
+        System.out.println("Nouveaux jets : ");
         afficherDe(listeDe);
     }
 
     public static void main(String[] args) {
         int[] des = lancerPlusieursDe();
         afficherDe(des);
-        affichageConsole();
-        relancerDe(des);
+
+        for (int tour = 1; tour <= 2; tour++) {
+            relancerDe(des);
+        }
+
+        System.out.println("\nJet final :");
+
+        afficherDe(des);
     }
 }
-
