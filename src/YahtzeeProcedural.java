@@ -78,6 +78,49 @@ public class YahtzeeProcedural {
         }
     }
 
+    enum Combinaison {
+        UNE_PAIRE,
+        DEUX_PAIRES,
+        BRELAN,
+        CARRE,
+        FULL_HOUSE,
+        PETITE_SUITE,
+        GRANDE_SUITE,
+        YAHTZEE
+    }
+
+    public static String score(Combinaison combinaison) {
+
+        String score = combinaison.toString();
+        switch (combinaison) {
+            case Combinaison.UNE_PAIRE:
+                score = "Une paire : ";
+                break;
+            case Combinaison.DEUX_PAIRES:
+                score = "Deux paire : ";
+                break;
+            case Combinaison.BRELAN:
+                score = "Brelan : ";
+                break;
+            case Combinaison.CARRE:
+                score = "Carre : ";
+                break;
+            case Combinaison.FULL_HOUSE:
+                score = "Full house : ";
+                break;
+            case Combinaison.PETITE_SUITE:
+                score = "Petite suite : ";
+                break;
+            case Combinaison.GRANDE_SUITE:
+                score = "Grande suite : ";
+                break;
+            case Combinaison.YAHTZEE:
+                score = "Yahtzee : ";
+                break;
+        }
+        return score;
+    }
+
     public static void main(String[] args) {
         int[] des = lancerPlusieursDe();
         afficherDe(des);
@@ -92,5 +135,10 @@ public class YahtzeeProcedural {
         }
         System.out.println("\nJet final :");
         afficherDe(des);
+        System.out.println("\nScore des combinaisons :");
+        for (Combinaison combinaisonScore : Combinaison.values()) {
+            System.out.println(score(combinaisonScore));
+        }
+
     }
 }
