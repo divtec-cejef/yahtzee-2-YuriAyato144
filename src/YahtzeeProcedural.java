@@ -14,9 +14,14 @@ public class YahtzeeProcedural {
      * @return le ou les dés que l'utilisateur veut relancer.
      */
     public static int[] demandeRelancementDe() {
-        System.out.println("Quel jet voulez-vous relancer ? (0 pour finir)");
-        Scanner jetRelancer = new Scanner(System.in);
-        String ligne = jetRelancer.nextLine();
+        System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
+        Scanner scanner = new Scanner(System.in);
+        String ligne = scanner.nextLine().trim();
+
+        if (ligne.equals("0") || ligne.isEmpty()) {
+            return new int[0]; // Aucun dé à relancer
+        }
+
         String[] parties = ligne.split(" ");
         int[] index = new int[parties.length];
         for (int i = 0; i < parties.length; i++) {
@@ -61,22 +66,19 @@ public class YahtzeeProcedural {
     }
 
     /**
-     * Permet de relancer le ou les dés que l'utilisateur à choisi.
+     * Permet de relancer le ou les dés sélectionné par l'utilisateur.
      *
-     * @param listeDe permet de garder en mémoire la nouvelle face du dé:
+     * @param des permet de garde en mémoire les dés.
+     *
+     * @param indexsRelancer permet de savoir quel index relancer
      */
-    public static void relancerDe(int[] listeDe) {
-        int[] choix = demandeRelancementDe();
-        for (int i = 0; i < choix.length; i++) {
-            int index = choix[i];
-            if (index >= 0 && index < listeDe.length) {
-                listeDe[index] = lancerDe();
-            } else {
-                System.out.println("Numéro de dé invalide : " + (index + 1));
+    public static void relancerDe(int[] des, int[] indexsRelancer) {
+        for (int i = 0; i < indexsRelancer.length; i++) {
+            int index = indexsRelancer[i];
+            if (index >= 0 && index < des.length) {
+                des[index] = lancerDe(); // Relancer le dé à la bonne position
             }
         }
-        System.out.println("Nouveaux jets : ");
-        afficherDe(listeDe);
     }
 
     public static void main(String[] args) {
@@ -84,11 +86,17 @@ public class YahtzeeProcedural {
         afficherDe(des);
 
         for (int tour = 1; tour <= 2; tour++) {
-            relancerDe(des);
+            int[] relance = demandeRelancementDe();
+            if (relance.length == 0) {
+                break; // L'utilisateur ne veut plus relancer
+            }
+
+            relancerDe(des, relance);
+            System.out.println("\nJet après relance " + tour + " :");
+            afficherDe(des);
         }
 
         System.out.println("\nJet final :");
-
         afficherDe(des);
     }
 }
