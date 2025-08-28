@@ -13,7 +13,7 @@ public class YahtzeeProcedural {
      *
      * @return le ou les dés que l'utilisateur veut relancer.
      */
-    public static int[] demandeRelancementDe() {
+    private static int[] demandeRelancementDe() {
         System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
         Scanner scanner = new Scanner(System.in);
         String ligne = scanner.nextLine().trim();
@@ -33,7 +33,7 @@ public class YahtzeeProcedural {
      *
      * @return un nombre aléatoire de 1 à nombre de face défini.
      */
-    public static int lancerDe() {
+    private static int lancerDe() {
         int nombreFace = 6;
 
         return (int) (Math.random() * nombreFace) + 1;
@@ -44,7 +44,7 @@ public class YahtzeeProcedural {
      *
      * @return les différent
      */
-    public static int[] lancerPlusieursDe() {
+    private static int[] lancerPlusieursDe() {
         int[] nombreDe = new int[5];
         for (int lancer = 0; lancer < nombreDe.length; lancer++) {
             nombreDe[lancer] = lancerDe();
@@ -57,7 +57,7 @@ public class YahtzeeProcedural {
      *
      * @param listeDe garde en mémoire la liste des jets pour les afficher dans la console.
      */
-    public static void afficherDe(int[] listeDe) {
+    private static void afficherDe(int[] listeDe) {
         for (int afficher = 0; afficher < listeDe.length; afficher++) {
             System.out.print("Jet " + (afficher + 1) + " : " + listeDe[afficher] + "\n");
         }
@@ -69,7 +69,7 @@ public class YahtzeeProcedural {
      * @param des            permet de garde en mémoire les dés.
      * @param indexsRelancer permet de savoir quel index relancer
      */
-    public static void relancerDe(int[] des, int[] indexsRelancer) {
+    private static void relancerDe(int[] des, int[] indexsRelancer) {
         for (int i = 0; i < indexsRelancer.length; i++) {
             int index = indexsRelancer[i];
             if (index >= 0 && index < des.length) {
@@ -80,16 +80,52 @@ public class YahtzeeProcedural {
 
     /**
      * Savoir combien de dés on la même face.
+     *
      * @param listeDés tableau pour garder en mémoire les faces des dés.
      * @return le nombre de même face
      */
-    public static int[] nombreOccurences(int[] listeDés) {
+    private static int[] nombreOccurences(int[] listeDés) {
 
         int[] nombreOccurences = new int[6];
         for (int nombre : listeDés) {
             nombreOccurences[nombre - 1]++;
         }
         return nombreOccurences;
+    }
+
+
+    private static boolean unePaire(int[] listeDes) {
+
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int occurrence : nombreOccurences) {
+            if (occurrence >= 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean deuxPaire(int[] listeDes) {
+
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int occurrence : nombreOccurences) {
+            if (occurrence >= 4) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private static boolean brelan(int[] listeDes) {
+
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int occurrence : nombreOccurences) {
+            if (occurrence >= 4) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -106,18 +142,17 @@ public class YahtzeeProcedural {
         YAHTZEE
     }
 
-
-    public static String score(Combinaison combinaison) {
+    private static String score(Combinaison combinaison) {
         int point = 0;
         String score = switch (combinaison) {
-            case Combinaison.UNE_PAIRE -> "Une paire : " + point;
-            case Combinaison.DEUX_PAIRES -> "Deux paire : " + point;
-            case Combinaison.BRELAN -> "Brelan : " + point;
-            case Combinaison.CARRE -> "Carre : " + point;
-            case Combinaison.FULL_HOUSE -> "Full house : " + point;
-            case Combinaison.PETITE_SUITE -> "Petite suite : " + point;
-            case Combinaison.GRANDE_SUITE -> "Grande suite : " + point;
-            case Combinaison.YAHTZEE -> "Yahtzee : " + point;
+            case Combinaison.UNE_PAIRE -> "Une paire : " + point + "pts";
+            case Combinaison.DEUX_PAIRES -> "Deux paire : " + point + "pts";
+            case Combinaison.BRELAN -> "Brelan : " + point + "pts";
+            case Combinaison.CARRE -> "Carre : " + point + "pts";
+            case Combinaison.FULL_HOUSE -> "Full house : " + point + "pts";
+            case Combinaison.PETITE_SUITE -> "Petite suite : " + point + "pts";
+            case Combinaison.GRANDE_SUITE -> "Grande suite : " + point + "pts";
+            case Combinaison.YAHTZEE -> "Yahtzee : " + point + "pts";
         };
         return score;
     }
@@ -134,7 +169,6 @@ public class YahtzeeProcedural {
             System.out.println("\nJet après relance " + tour + " :");
             afficherDe(des);
         }
-
         System.out.println("\nJet final :");
         afficherDe(des);
         System.out.println("\nFace de la même valeur :");
@@ -145,5 +179,12 @@ public class YahtzeeProcedural {
         for (Combinaison combinaisonScore : Combinaison.values()) {
             System.out.println(score(combinaisonScore));
         }
+        if (unePaire(des)) {
+            System.out.println("ceci est une paire!");
+        }
+        if (deuxPaire(des)) {
+            System.out.println("ceci sont deux paires!");
+        }
+
     }
 }
