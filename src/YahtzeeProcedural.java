@@ -78,6 +78,11 @@ public class YahtzeeProcedural {
         }
     }
 
+    /**
+     * Savoir combien de dés on la même face.
+     * @param listeDés tableau pour garder en mémoire les faces des dés.
+     * @return le nombre de même face
+     */
     public static int[] nombreOccurences(int[] listeDés) {
 
         int[] nombreOccurences = new int[6];
@@ -87,6 +92,9 @@ public class YahtzeeProcedural {
         return nombreOccurences;
     }
 
+    /**
+     * Enumeration  de la liste des combinaison possible.
+     */
     enum Combinaison {
         UNE_PAIRE,
         DEUX_PAIRES,
@@ -97,6 +105,7 @@ public class YahtzeeProcedural {
         GRANDE_SUITE,
         YAHTZEE
     }
+
 
     public static String score(Combinaison combinaison) {
         int point = 0;
@@ -136,7 +145,5 @@ public class YahtzeeProcedural {
         for (Combinaison combinaisonScore : Combinaison.values()) {
             System.out.println(score(combinaisonScore));
         }
-
-
     }
 }
