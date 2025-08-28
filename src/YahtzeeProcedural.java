@@ -35,7 +35,6 @@ public class YahtzeeProcedural {
      */
     private static int lancerDe() {
         int nombreFace = 6;
-
         return (int) (Math.random() * nombreFace) + 1;
     }
 
@@ -85,7 +84,6 @@ public class YahtzeeProcedural {
      * @return le nombre de même face
      */
     private static int[] nombreOccurences(int[] listeDés) {
-
         int[] nombreOccurences = new int[6];
         for (int nombre : listeDés) {
             nombreOccurences[nombre - 1]++;
@@ -95,7 +93,6 @@ public class YahtzeeProcedural {
 
 
     private static boolean unePaire(int[] listeDes) {
-
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
             if (occurrence >= 2) {
@@ -106,19 +103,22 @@ public class YahtzeeProcedural {
     }
 
     private static boolean deuxPaire(int[] listeDes) {
-
+       boolean deuxPaire = false;
         int[] nombreOccurences = nombreOccurences(listeDes);
-        for (int occurrence : nombreOccurences) {
-            if (occurrence >= 4) {
-                return true;
+        for (int occurrence = 0; occurrence < 6; occurrence++) {
+            if (nombreOccurences[occurrence] >= 2) {
+                for (int deuxPaires = occurrence + 1; deuxPaires < 6; deuxPaires++) {
+                    if(nombreOccurences[deuxPaires] >= 2) {
+                        deuxPaire = true;
+                    }
+                }
             }
         }
-        return false;
+        return deuxPaire;
     }
 
 
     private static boolean brelan(int[] listeDes) {
-
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
             if (occurrence >= 4) {
