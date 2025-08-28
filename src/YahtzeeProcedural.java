@@ -78,6 +78,15 @@ public class YahtzeeProcedural {
         }
     }
 
+    public static int[] nombreOccurences(int[] listeDés) {
+
+        int[] nombreOccurences = new int[6];
+        for (int nombre : listeDés) {
+            nombreOccurences[nombre - 1]++;
+        }
+        return nombreOccurences;
+    }
+
     enum Combinaison {
         UNE_PAIRE,
         DEUX_PAIRES,
@@ -90,16 +99,16 @@ public class YahtzeeProcedural {
     }
 
     public static String score(Combinaison combinaison) {
-
+        int point = 0;
         String score = switch (combinaison) {
-            case Combinaison.UNE_PAIRE -> "Une paire : ";
-            case Combinaison.DEUX_PAIRES -> "Deux paire : ";
-            case Combinaison.BRELAN -> "Brelan : ";
-            case Combinaison.CARRE -> "Carre : ";
-            case Combinaison.FULL_HOUSE -> "Full house : ";
-            case Combinaison.PETITE_SUITE -> "Petite suite : ";
-            case Combinaison.GRANDE_SUITE -> "Grande suite : ";
-            case Combinaison.YAHTZEE -> "Yahtzee : ";
+            case Combinaison.UNE_PAIRE -> "Une paire : " + point;
+            case Combinaison.DEUX_PAIRES -> "Deux paire : " + point;
+            case Combinaison.BRELAN -> "Brelan : " + point;
+            case Combinaison.CARRE -> "Carre : " + point;
+            case Combinaison.FULL_HOUSE -> "Full house : " + point;
+            case Combinaison.PETITE_SUITE -> "Petite suite : " + point;
+            case Combinaison.GRANDE_SUITE -> "Grande suite : " + point;
+            case Combinaison.YAHTZEE -> "Yahtzee : " + point;
         };
         return score;
     }
@@ -116,12 +125,18 @@ public class YahtzeeProcedural {
             System.out.println("\nJet après relance " + tour + " :");
             afficherDe(des);
         }
+
         System.out.println("\nJet final :");
         afficherDe(des);
+        System.out.println("\nFace de la même valeur :");
+        for (int i = 0; i < nombreOccurences(des).length; i++) {
+            System.out.println("Nombre " + (i + 1) + " : " + nombreOccurences(des)[i] + " fois");
+        }
         System.out.println("\nScore des combinaisons :");
         for (Combinaison combinaisonScore : Combinaison.values()) {
             System.out.println(score(combinaisonScore));
         }
+
 
     }
 }
