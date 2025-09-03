@@ -109,6 +109,7 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait une double paire.
+     *
      * @param listeDes prend en compte la liste de dés lancé.
      * @return vrai ou faux selon les lancer de dés.
      */
@@ -124,9 +125,10 @@ public class YahtzeeProcedural {
     }
 
     /**
-     *Permet de savoir si l'on a fait un brelan.
-     * @listeDes prend en compte la liste de dés lancé.
+     * Permet de savoir si l'on a fait un brelan.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean brelan(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -140,8 +142,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait un carré.
-     * @listeDes prend en compte la liste de dés lancé.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean carre(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -155,8 +158,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait un Full House.
-     * @listeDes prend en compte la liste de dés lancé.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean fullHouse(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -175,8 +179,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait une Petite suite.
-     * @listeDes prend en compte la liste de dés lancé.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean petiteSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
@@ -190,8 +195,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait une Grande suite.
-     * @listeDes prend en compte la liste de dés lancé.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean grandeSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
@@ -205,8 +211,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de savoir si l'on a fait un Yahtzee.
-     * @listeDes prend en compte la liste de dés lancé.
+     *
      * @return vrai ou faux selon les lancer de dés.
+     * @listeDes prend en compte la liste de dés lancé.
      */
     private static boolean yahtzee(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -234,8 +241,9 @@ public class YahtzeeProcedural {
 
     /**
      * Permet de compter le spoint selon les dés affiché.
+     *
      * @param combinaison permet de savoir le nom de la combinaison.
-     * @param des permet de reprendre la liste de combinaison des dés.
+     * @param des         permet de reprendre la liste de combinaison des dés.
      * @return les points avec un petit message pour savoir la combinaison.
      */
     private static String score(Combinaison combinaison, int[] des) {
