@@ -233,10 +233,10 @@ public class YahtzeeProcedural {
     }
 
     /**
-     *
-     * @param combinaison
-     * @param des
-     * @return
+     * Permet de compter le spoint selon les dés affiché.
+     * @param combinaison permet de savoir le nom de la combinaison.
+     * @param des permet de reprendre la liste de combinaison des dés.
+     * @return les points avec un petit message pour savoir la combinaison.
      */
     private static String score(Combinaison combinaison, int[] des) {
         int point = 0;
