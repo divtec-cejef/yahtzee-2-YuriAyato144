@@ -126,8 +126,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait un brelan.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean brelan(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -142,8 +142,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait un carré.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean carre(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -158,8 +158,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait un Full House.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean fullHouse(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -179,8 +179,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait une Petite suite.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean petiteSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
@@ -195,8 +195,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait une Grande suite.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean grandeSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
@@ -211,8 +211,8 @@ public class YahtzeeProcedural {
     /**
      * Permet de savoir si l'on a fait un Yahtzee.
      *
-     * @return vrai ou faux selon les lancer de dés.
      * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
      */
     private static boolean yahtzee(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
@@ -283,10 +283,18 @@ public class YahtzeeProcedural {
         };
     }
 
+
+    private static void combinaisonEncoreDisponible(Combinaison combinaison) {
+        switch (combinaison) {
+        }
+    }
+
     public static void main(String[] args) {
         int[] des = lancerPlusieursDe();
         afficherDe(des);
-        for (int tour = 1; tour <= 2; tour++) {
+
+        int tour = 1;
+        while (true) {
             int[] relance = demandeRelancementDe();
             if (relance.length == 0) {
                 break;
@@ -294,7 +302,18 @@ public class YahtzeeProcedural {
             relancerDe(des, relance);
             System.out.println("\nJet après relance " + tour + " :");
             afficherDe(des);
+            tour++;
         }
+
+//        for (int tour = 1; tour <= 2; tour++) {
+//            int[] relance = demandeRelancementDe();
+//            if (relance.length == 0) {
+//                break;
+//            }
+//            relancerDe(des, relance);
+//            System.out.println("\nJet après relance " + tour + " :");
+//            afficherDe(des);
+//        }
         System.out.println("\nJet final :");
         afficherDe(des);
         int[] occurences = nombreOccurences(des);
@@ -303,8 +322,12 @@ public class YahtzeeProcedural {
             System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
         }
         System.out.println("\nScore des combinaisons :");
+        int compteur = 1;
         for (Combinaison combinaisonScore : Combinaison.values()) {
-            System.out.println(score(combinaisonScore, des));
+            System.out.println(compteur++ + ". " + score(combinaisonScore, des));
         }
+        System.out.println("Saisir le numéro de la combinaison désiré : ");
+        Scanner combinaison = new Scanner(System.in);
+        combinaison.nextLine();
     }
 }
