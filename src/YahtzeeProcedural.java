@@ -282,13 +282,7 @@ public class YahtzeeProcedural {
             }
         };
     }
-
-
-    private static void combinaisonEncoreDisponible(Combinaison combinaison) {
-        switch (combinaison) {
-        }
-    }
-
+    
     public static void main(String[] args) {
         int[] des = lancerPlusieursDe();
         afficherDe(des);
@@ -305,7 +299,7 @@ public class YahtzeeProcedural {
             tour++;
         }
 
-//        for (int tour = 1; tour <= 2; tour++) {
+//   //     for (int tour = 1; tour <= 2; tour++) {
 //            int[] relance = demandeRelancementDe();
 //            if (relance.length == 0) {
 //                break;
@@ -326,6 +320,7 @@ public class YahtzeeProcedural {
         for (Combinaison combinaisonScore : Combinaison.values()) {
             System.out.println(compteur++ + ". " + score(combinaisonScore, des));
         }
+
         System.out.println("Saisir le numéro de la combinaison désiré : ");
         Scanner combinaison = new Scanner(System.in);
         combinaison.nextLine();
