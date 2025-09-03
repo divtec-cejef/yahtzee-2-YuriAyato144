@@ -81,7 +81,7 @@ public class YahtzeeProcedural {
      * Savoir combien de dés on la même face.
      *
      * @param listeDés tableau pour garder en mémoire les faces des dés.
-     * @return le nombre de même face
+     * @return le nombre de même face.
      */
     private static int[] nombreOccurences(int[] listeDés) {
         int[] nombreOccurences = new int[6];
@@ -91,7 +91,12 @@ public class YahtzeeProcedural {
         return nombreOccurences;
     }
 
-
+    /**
+     * Permet de savoir si l'on a fait une paire.
+     *
+     * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
     private static boolean unePaire(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
@@ -102,23 +107,43 @@ public class YahtzeeProcedural {
         return false;
     }
 
-    private static boolean deuxPaire(int[] listeDes) {
-       boolean deuxPaire = false;
+    /**
+     * Permet de savoir si l'on a fait une double paire.
+     * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean deuxPaires(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
-        for (int occurrence = 0; occurrence < 6; occurrence++) {
-            if (nombreOccurences[occurrence] >= 2) {
-                for (int deuxPaires = occurrence + 1; deuxPaires < 6; deuxPaires++) {
-                    if(nombreOccurences[deuxPaires] >= 2) {
-                        deuxPaire = true;
-                    }
-                }
+        int compteur = 0;
+        for (int occurrence : nombreOccurences) {
+            if (occurrence >= 2) {
+                compteur++;
             }
         }
-        return deuxPaire;
+        return compteur >= 2;
     }
 
-
+    /**
+     *Permet de savoir si l'on a fait un brelan.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
     private static boolean brelan(int[] listeDes) {
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int occurrence : nombreOccurences) {
+            if (occurrence >= 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Permet de savoir si l'on a fait un carré.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean carre(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
             if (occurrence >= 4) {
@@ -129,7 +154,72 @@ public class YahtzeeProcedural {
     }
 
     /**
-     * Enumeration  de la liste des combinaison possible.
+     * Permet de savoir si l'on a fait un Full House.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean fullHouse(int[] listeDes) {
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        boolean aDeux = false;
+        boolean aTrois = false;
+        for (int occurrence : nombreOccurences) {
+            if (occurrence == 2) {
+                aDeux = true;
+            }
+            if (occurrence == 3) {
+                aTrois = true;
+            }
+        }
+        return aDeux && aTrois;
+    }
+
+    /**
+     * Permet de savoir si l'on a fait une Petite suite.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean petiteSuite(int[] listeDes) {
+        boolean[] present = new boolean[6];
+        for (int de : listeDes) {
+            present[de - 1] = true;
+        }
+        return (present[0] && present[1] && present[2] && present[3]) ||
+                (present[1] && present[2] && present[3] && present[4]) ||
+                (present[2] && present[3] && present[4] && present[5]);
+    }
+
+    /**
+     * Permet de savoir si l'on a fait une Grande suite.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean grandeSuite(int[] listeDes) {
+        boolean[] present = new boolean[6];
+        for (int de : listeDes) {
+            present[de - 1] = true;
+        }
+        // suite 1-2-3-4-5 ou 2-3-4-5-6
+        return (present[0] && present[1] && present[2] && present[3] && present[4]) ||
+                (present[1] && present[2] && present[3] && present[4] && present[5]);
+    }
+
+    /**
+     * Permet de savoir si l'on a fait un Yahtzee.
+     * @listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static boolean yahtzee(int[] listeDes) {
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int occurrence : nombreOccurences) {
+            if (occurrence == 5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Enumeration pour les nom de combinaison.
      */
     enum Combinaison {
         UNE_PAIRE,
@@ -142,19 +232,48 @@ public class YahtzeeProcedural {
         YAHTZEE
     }
 
-    private static String score(Combinaison combinaison) {
+    /**
+     *
+     * @param combinaison
+     * @param des
+     * @return
+     */
+    private static String score(Combinaison combinaison, int[] des) {
         int point = 0;
-        String score = switch (combinaison) {
-            case Combinaison.UNE_PAIRE -> "Une paire : " + point + "pts";
-            case Combinaison.DEUX_PAIRES -> "Deux paire : " + point + "pts";
-            case Combinaison.BRELAN -> "Brelan : " + point + "pts";
-            case Combinaison.CARRE -> "Carre : " + point + "pts";
-            case Combinaison.FULL_HOUSE -> "Full house : " + point + "pts";
-            case Combinaison.PETITE_SUITE -> "Petite suite : " + point + "pts";
-            case Combinaison.GRANDE_SUITE -> "Grande suite : " + point + "pts";
-            case Combinaison.YAHTZEE -> "Yahtzee : " + point + "pts";
+        return switch (combinaison) {
+            case UNE_PAIRE -> {
+                if (unePaire(des)) point = 5;
+                yield "Une paire : " + point + " pts";
+            }
+            case DEUX_PAIRES -> {
+                if (deuxPaires(des)) point = 15;
+                yield "Deux paires : " + point + " pts";
+            }
+            case BRELAN -> {
+                if (brelan(des)) point = 20;
+                yield "Brelan : " + point + " pts";
+            }
+            case CARRE -> {
+                if (carre(des)) point = 30;
+                yield "Carré : " + point + " pts";
+            }
+            case FULL_HOUSE -> {
+                if (fullHouse(des)) point = 25;
+                yield "Full house : " + point + " pts";
+            }
+            case PETITE_SUITE -> {
+                if (petiteSuite(des)) point = 30;
+                yield "Petite suite : " + point + " pts";
+            }
+            case GRANDE_SUITE -> {
+                if (grandeSuite(des)) point = 40;
+                yield "Grande suite : " + point + " pts";
+            }
+            case YAHTZEE -> {
+                if (yahtzee(des)) point = 50;
+                yield "Yahtzee : " + point + " pts";
+            }
         };
-        return score;
     }
 
     public static void main(String[] args) {
@@ -171,20 +290,14 @@ public class YahtzeeProcedural {
         }
         System.out.println("\nJet final :");
         afficherDe(des);
+        int[] occurences = nombreOccurences(des);
         System.out.println("\nFace de la même valeur :");
-        for (int i = 0; i < nombreOccurences(des).length; i++) {
-            System.out.println("Nombre " + (i + 1) + " : " + nombreOccurences(des)[i] + " fois");
+        for (int i = 0; i < occurences.length; i++) {
+            System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
         }
         System.out.println("\nScore des combinaisons :");
         for (Combinaison combinaisonScore : Combinaison.values()) {
-            System.out.println(score(combinaisonScore));
+            System.out.println(score(combinaisonScore, des));
         }
-        if (unePaire(des)) {
-            System.out.println("ceci est une paire!");
-        }
-        if (deuxPaire(des)) {
-            System.out.println("ceci sont deux paires!");
-        }
-
     }
 }
