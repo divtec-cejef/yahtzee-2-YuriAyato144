@@ -6,6 +6,7 @@ Date : 20.08.2025
 
 import java.util.Scanner;
 
+
 public class YahtzeeProcedural {
 
     /**
@@ -282,47 +283,66 @@ public class YahtzeeProcedural {
             }
         };
     }
-    
+
+
     public static void main(String[] args) {
-        int[] des = lancerPlusieursDe();
-        afficherDe(des);
-
-        int tour = 1;
-        while (true) {
-            int[] relance = demandeRelancementDe();
-            if (relance.length == 0) {
-                break;
-            }
-            relancerDe(des, relance);
-            System.out.println("\nJet après relance " + tour + " :");
+        while (true) { // Boucle infinie ajoutée
+            int[] des = lancerPlusieursDe();
             afficherDe(des);
-            tour++;
-        }
+            Scanner combinaison = new Scanner(System.in);
+            boolean[] combinaisonsUtilisees = new boolean[Combinaison.values().length];
 
-//   //     for (int tour = 1; tour <= 2; tour++) {
-//            int[] relance = demandeRelancementDe();
-//            if (relance.length == 0) {
-//                break;
-//            }
-//            relancerDe(des, relance);
-//            System.out.println("\nJet après relance " + tour + " :");
-//            afficherDe(des);
-//        }
-        System.out.println("\nJet final :");
-        afficherDe(des);
-        int[] occurences = nombreOccurences(des);
-        System.out.println("\nFace de la même valeur :");
-        for (int i = 0; i < occurences.length; i++) {
-            System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
-        }
-        System.out.println("\nScore des combinaisons :");
-        int compteur = 1;
-        for (Combinaison combinaisonScore : Combinaison.values()) {
-            System.out.println(compteur++ + ". " + score(combinaisonScore, des));
-        }
+            int tour = 1;
+            while (true) {
+                int[] relance = demandeRelancementDe();
+                if (relance.length == 0) {
+                    break;
+                }
+                relancerDe(des, relance);
+                System.out.println("\nJet après relance " + tour + " :");
+                afficherDe(des);
+                tour++;
 
-        System.out.println("Saisir le numéro de la combinaison désiré : ");
-        Scanner combinaison = new Scanner(System.in);
-        combinaison.nextLine();
+                //   //     for (int tour = 1; tour <= 2; tour++) {
+                //            int[] relance = demandeRelancementDe();
+                //            if (relance.length == 0) {
+                //                break;
+                //            }
+                //            relancerDe(des, relance);
+                //            System.out.println("\nJet après relance " + tour + " :");
+                //            afficherDe(des);
+                //        }
+
+                while (true) {
+                    System.out.println("\nJet final :");
+                    afficherDe(des);
+                    int[] occurences = nombreOccurences(des);
+                    System.out.println("\nFace de la même valeur :");
+                    for (int i = 0; i < occurences.length; i++) {
+                        System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
+                    }
+                    System.out.println("\nScore des combinaisons :");
+                    //int compteur = 1;
+                    for (int i = 0; i < Combinaison.values().length; i++) {
+                        if (!combinaisonsUtilisees[i]) {
+                            Combinaison combinaisonScore = Combinaison.values()[i];
+                            System.out.println((i + 1) + ". " + score(combinaisonScore, des));
+                        }
+                    }
+                    System.out.println("Saisir le numéro de la combinaison désiré : ");
+                    int choix = combinaison.nextInt();  // L'utilisateur entre un numéro entre 1 et 8
+                    if (choix >= 1 && choix <= Combinaison.values().length && !combinaisonsUtilisees[choix - 1]) {
+                        combinaisonsUtilisees[choix - 1] = true;
+                        System.out.println("Vous avez sélectionné : " + score(Combinaison.values()[choix - 1], des));
+                        break; // Fin du tour
+                    } else {
+                        System.out.println("Choix invalide ou déjà utilisé. Veuillez réessayer.");
+                    }
+
+                    combinaison = new Scanner(System.in);
+                    combinaison.nextLine();
+                }
+            }
+        }
     }
 }
