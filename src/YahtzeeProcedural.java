@@ -1,5 +1,6 @@
 /*
 Projet : jeu du Yahtzee
+Auteur: Aedan Bélet
 Date : 20.08.2025
  */
 
@@ -301,6 +302,10 @@ public class YahtzeeProcedural {
 
     /**
      * Convertit le numéro choisi par l'utilisateur en index réel de combinaison
+     *
+     * @param choixUtilisateur      numéro saisi par l'utilisateur
+     * @param combinaisonsUtilisees Tableau indiquant quelles combinaison ont déjà été utilisées
+     * @return le numéro saisi par l'utilisateur
      */
     private static int obtenirIndexCombinaison(int choixUtilisateur, boolean[] combinaisonsUtilisees) {
         int compteur = 0;
@@ -318,9 +323,13 @@ public class YahtzeeProcedural {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean[] combinaisonsUtilisees = new boolean[Combinaison.values().length];
+        int scoreTotal = 0;
+        int manche = 1;
+        System.out.println("Vous avez " + Combinaison.values().length + " combinaisons à compléter.\n");
 
-        // Boucle principale du jeu (vous pouvez ajouter une condition pour jouer plusieurs tours)
+        // Boucle principale du jeu - continue jusqu'à ce que toutes les combinaisons soient utilisées
         while (true) {
+
             // Lancer initial des dés
             int[] des = lancerPlusieursDe();
             System.out.println("Lancer initial :");
@@ -337,20 +346,17 @@ public class YahtzeeProcedural {
                 afficherDe(des);
             }
 
-            // Affichage final
             System.out.println("\nJet final :");
             afficherDe(des);
-
             int[] occurences = nombreOccurences(des);
-            System.out.println("\nFace de la même valeur :");
+            System.out.println("\nAnalyse des dés :");
             for (int i = 0; i < occurences.length; i++) {
-                System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
+                if (occurences[i] > 0) {
+                    System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
+                }
             }
 
-            // Afficher uniquement les combinaisons disponibles
-            afficherCombinaisonsDisponibles(des, combinaisonsUtilisees);
-
-            // Vérifier s'il reste des combinaisons disponibles
+            // Vérifie s'il reste des combinaisons disponibles
             boolean combinaisonDisponible = false;
             for (boolean utilisee : combinaisonsUtilisees) {
                 if (!utilisee) {
@@ -360,31 +366,69 @@ public class YahtzeeProcedural {
             }
 
             if (!combinaisonDisponible) {
-                System.out.println("Toutes les combinaisons ont été utilisées ! Fin du jeu.");
+                System.out.println("\nToutes les combinaisons ont été utilisées !");
+                System.out.println("Score total final : " + scoreTotal + " points");
                 break;
             }
 
-            // Demander le choix de l'utilisateur
-            System.out.print("Saisir le numéro de la combinaison désirée : ");
-            int choix = scanner.nextInt();
+            // Afficher uniquement les combinaisons disponibles
+            afficherCombinaisonsDisponibles(des, combinaisonsUtilisees);
 
-            // Convertir le choix en index
-            int indexReel = obtenirIndexCombinaison(choix, combinaisonsUtilisees);
+            // Demander le choix de l'utilisateur avec validation
+            int choix;
+            int indexReel = -1;
 
-            if (indexReel != -1) {
-                combinaisonsUtilisees[indexReel] = true;
-                System.out.println("Combinaison choisie : " + score(Combinaison.values()[indexReel], des));
-            } else {
-                System.out.println("Choix invalide !");
+            while (indexReel == -1) {
+                System.out.print("Saisir le numéro de la combinaison désirée : ");
+                try {
+                    choix = scanner.nextInt();
+                    indexReel = obtenirIndexCombinaison(choix, combinaisonsUtilisees);
+
+                    if (indexReel == -1) {
+                        System.out.println("Choix invalide ! Veuillez choisir un numéro de la liste.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Veuillez saisir un nombre valide.");
+                    scanner.nextLine(); // nettoyer le buffer
+                }
             }
 
-            // Demander si le joueur veut continuer
-            System.out.print("Voulez-vous jouer un autre tour ? (oui/non) : ");
-            scanner.nextLine();
-            String continuer = scanner.nextLine().toLowerCase();
-            if (!continuer.equals("oui") && !continuer.equals("o")) {
-                break;
+            // Marquer la combinaison comme utilisée et calculer les points
+            combinaisonsUtilisees[indexReel] = true;
+            Combinaison combinaisonChoisie = Combinaison.values()[indexReel];
+            String resultatScore = score(combinaisonChoisie, des);
+
+            // Extraire les points du résultat (format : "Nom : X pts")
+            int pointsGagnes = 0;
+            String[] parties = resultatScore.split(" : ");
+            if (parties.length > 1) {
+                String pointsStr = parties[1].replace(" pts", "");
+                pointsGagnes = Integer.parseInt(pointsStr);
             }
+
+            scoreTotal += pointsGagnes;
+
+            System.out.println("\nRésultat de la manche :\n");
+            System.out.println("Combinaison utilisée : " + resultatScore);
+            System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
+            System.out.println("Score de cette manche : " + pointsGagnes + " points");
+            System.out.println("Score total : " + scoreTotal + " points");
+
+            // Afficher les combinaisons restantes
+            int combinaisonsRestantes = 0;
+            for (boolean utilisee : combinaisonsUtilisees) {
+                if (!utilisee) combinaisonsRestantes++;
+            }
+            System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
+
+            if (combinaisonsRestantes > 0) {
+                System.out.println("\nAppuyez sur Entrée pour continuer vers la manche suivante...");
+                scanner.nextLine(); // consommer le retour à la ligne du nextInt()
+                scanner.nextLine(); // attendre que l'utilisateur appuie sur Entrée
+            }
+
+            manche++;
+            System.out.println(); // ligne vide pour séparer les manches
         }
 
         scanner.close();
