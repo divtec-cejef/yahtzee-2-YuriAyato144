@@ -432,6 +432,7 @@ public class YahtzeeProcedural {
         int manche = 1;
         // Boucle "infini"
         do {
+            System.out.println("\nMache " + manche + "\n");
             // Jouer une manche complète
             int[] des = jouerManche();
             // Vérifie s'il reste des combinaisons disponibles
