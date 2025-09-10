@@ -5,6 +5,7 @@ Date : 20.08.2025
  */
 
 import java.util.Scanner;
+
 public class YahtzeeProcedural {
 
     /**
@@ -282,7 +283,10 @@ public class YahtzeeProcedural {
     }
 
     /**
-     * Affiche uniquement les combinaisons encore disponibles avec numérotation correcte
+     * Affiche uniquement les combinaisons encore disponibles avec numérotation correcte.
+     *
+     * @param des                   liste des dés.
+     * @param combinaisonsUtilisees tableau pour savoir quelles combinaisons à été utiliser ou non.
      */
     private static void afficherCombinaisonsDisponibles(int[] des, boolean[] combinaisonsUtilisees) {
         System.out.println("\nCombinisons disponibles :");
@@ -317,108 +321,177 @@ public class YahtzeeProcedural {
         return -1; // Choix invalide
     }
 
+    /**
+     * Gère une manche complète avec les relances de dés.
+     *
+     * @return le tableau des dés finaux après les relances.
+     */
+    private static int[] jouerManche() {
+        // Lancer initial des dés
+        int[] des = lancerPlusieursDe();
+        System.out.println("Lancer initial :");
+        afficherDe(des);
+
+        // Permettre jusqu'à 2 relances
+        for (int tour = 1; tour <= 2; tour++) {
+            int[] relance = demandeRelancementDe();
+            if (relance.length == 0) {
+                break; // Le joueur ne veut pas relancer
+            }
+            relancerDe(des, relance);
+            System.out.println("\nJet après relance " + tour + " :");
+            afficherDe(des);
+        }
+        return des;
+    }
+
+    /**
+     * Vérifie s'il reste des combinaisons disponibles.
+     *
+     * @param combinaisonsUtilisees tableau indiquant les combinaisons déjà utilisées.
+     * @return vrai s'il reste au moins une combinaison disponible.
+     */
+    private static boolean resteCombinaisonsDisponibles(boolean[] combinaisonsUtilisees) {
+        for (boolean utilisee : combinaisonsUtilisees) {
+            if (!utilisee) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Demande à l'utilisateur de choisir une combinaison parmi celles disponibles.
+     *
+     * @param des                   tableau des dés pour calculer les scores.
+     * @param combinaisonsUtilisees tableau indiquant les combinaisons déjà utilisées.
+     * @param scanner               scanner pour lire l'entrée utilisateur.
+     * @return l'index réel de la combinaison choisie.
+     */
+    private static int choisirCombinaison(int[] des, boolean[] combinaisonsUtilisees, Scanner scanner) {
+        // Afficher uniquement les combinaisons disponibles
+        afficherCombinaisonsDisponibles(des, combinaisonsUtilisees);
+
+        // Demander le choix de l'utilisateur avec validation
+        int choix;
+        int indexReel = -1;
+        while (indexReel == -1) {
+            System.out.print("Saisir le numéro de la combinaison désirée : ");
+            try {
+                choix = scanner.nextInt();
+                indexReel = obtenirIndexCombinaison(choix, combinaisonsUtilisees);
+
+                if (indexReel == -1) {
+                    System.out.println("Choix invalide ! Veuillez choisir un numéro de la liste.");
+                }
+            } catch (Exception e) {
+                System.out.println("Veuillez saisir un nombre valide.");
+                scanner.nextLine(); // nettoyer le buffer
+            }
+        }
+        return indexReel;
+    }
+
+    /**
+     * Extrait les points d'une chaîne de score au format "Nom : X pts".
+     *
+     * @param resultatScore chaîne contenant le score formaté.
+     * @return le nombre de points extraits.
+     */
+    private static int extrairePoints(String resultatScore) {
+        int pointsGagnes = 0;
+        String[] parties = resultatScore.split(" : ");
+        if (parties.length > 1) {
+            String pointsStr = parties[1].replace(" pts", "");
+            pointsGagnes = Integer.parseInt(pointsStr);
+        }
+        return pointsGagnes;
+    }
+
+    /**
+     * Affiche le résumé d'une manche avec les points gagnés et le score total.
+     *
+     * @param resultatScore         chaîne formatée du score de la combinaison.
+     * @param pointsGagnes          points gagnés cette manche.
+     * @param scoreTotal            score total actuel.
+     * @param combinaisonsRestantes nombre de combinaisons encore disponibles.
+     */
+    private static void afficherResumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes) {
+        System.out.println("\nRésultat de la manche :\n");
+        System.out.println("Combinaison utilisée : " + resultatScore);
+        System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
+        System.out.println("Score de cette manche : " + pointsGagnes + " points");
+        System.out.println("Score total : " + scoreTotal + " points");
+        System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
+    }
+
+    /**
+     * Compte le nombre de combinaisons encore disponibles.
+     *
+     * @param combinaisonsUtilisees tableau indiquant les combinaisons déjà utilisées.
+     * @return le nombre de combinaisons restantes.
+     */
+    private static int compterCombinaisonsRestantes(boolean[] combinaisonsUtilisees) {
+        int combinaisonsRestantes = 0;
+        for (boolean utilisee : combinaisonsUtilisees) {
+            if (!utilisee) combinaisonsRestantes++;
+        }
+        return combinaisonsRestantes;
+    }
+
+    /**
+     * Attend que l'utilisateur appuie sur Entrée pour continuer.
+     *
+     * @param scanner scanner pour lire l'entrée utilisateur.
+     */
+    private static void attendreContinuer(Scanner scanner) {
+        System.out.println("\nAppuyez sur Entrée pour continuer vers la manche suivante...");
+        scanner.nextLine(); // consommer le retour à la ligne du nextInt()
+        scanner.nextLine(); // attendre que l'utilisateur appuie sur Entrée
+    }
+
+    /**
+     * Affiche le message de fin de partie avec le score final.
+     *
+     * @param scoreTotal score final du joueur.
+     */
+    private static void afficherFinPartie(int scoreTotal) {
+        System.out.println("\nToutes les combinaisons ont été utilisées !");
+        System.out.println("Score total final : " + scoreTotal + " points");
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean[] combinaisonsUtilisees = new boolean[Combinaison.values().length];
         int scoreTotal = 0;
         int manche = 1;
         System.out.println("Vous avez " + Combinaison.values().length + " combinaisons à compléter.\n");
-
         // Boucle "infini"
         while (true) {
-
-            // Lancer initial des dés
-            int[] des = lancerPlusieursDe();
-            System.out.println("Lancer initial :");
-            afficherDe(des);
-
-            // Permettre jusqu'à 2 relances
-            for (int tour = 1; tour <= 2; tour++) {
-                int[] relance = demandeRelancementDe();
-                if (relance.length == 0) {
-                    break; // Le joueur ne veut pas relancer
-                }
-                relancerDe(des, relance);
-                System.out.println("\nJet après relance " + tour + " :");
-                afficherDe(des);
-            }
-            System.out.println("\nJet final :");
-            afficherDe(des);
-            int[] occurences = nombreOccurences(des);
-            System.out.println("\nAnalyse des dés :");
-            for (int i = 0; i < occurences.length; i++) {
-                if (occurences[i] > 0) {
-                    System.out.println("Nombre " + (i + 1) + " : " + occurences[i] + " fois");
-                }
-            }
-
+            // Jouer une manche complète
+            int[] des = jouerManche();
             // Vérifie s'il reste des combinaisons disponibles
-            boolean combinaisonDisponible = false;
-            for (boolean utilisee : combinaisonsUtilisees) {
-                if (!utilisee) {
-                    combinaisonDisponible = true;
-                    break;
-                }
-            }
-            if (!combinaisonDisponible) {
-                System.out.println("\nToutes les combinaisons ont été utilisées !");
-                System.out.println("Score total final : " + scoreTotal + " points");
+            if (!resteCombinaisonsDisponibles(combinaisonsUtilisees)) {
+                afficherFinPartie(scoreTotal);
                 break;
             }
-
-            // Afficher uniquement les combinaisons disponibles
-            afficherCombinaisonsDisponibles(des, combinaisonsUtilisees);
-
-            // Demander le choix de l'utilisateur avec validation
-            int choix;
-            int indexReel = -1;
-            while (indexReel == -1) {
-                System.out.print("Saisir le numéro de la combinaison désirée : ");
-                try {
-                    choix = scanner.nextInt();
-                    indexReel = obtenirIndexCombinaison(choix, combinaisonsUtilisees);
-
-                    if (indexReel == -1) {
-                        System.out.println("Choix invalide ! Veuillez choisir un numéro de la liste.");
-                    }
-                } catch (Exception e) {
-                    System.out.println("Veuillez saisir un nombre valide.");
-                    scanner.nextLine(); // nettoyer le buffer
-                }
-            }
-
+            // Choisir la combinaison
+            int indexReel = choisirCombinaison(des, combinaisonsUtilisees, scanner);
             // Marquer la combinaison comme utilisée et calculer les points
             combinaisonsUtilisees[indexReel] = true;
             Combinaison combinaisonChoisie = Combinaison.values()[indexReel];
             String resultatScore = score(combinaisonChoisie, des);
-
-            // Extraire les points du résultat (format : "Nom : X pts")
-            int pointsGagnes = 0;
-            String[] parties = resultatScore.split(" : ");
-            if (parties.length > 1) {
-                String pointsStr = parties[1].replace(" pts", "");
-                pointsGagnes = Integer.parseInt(pointsStr);
-            }
+            // Calculer et afficher les résultats
+            int pointsGagnes = extrairePoints(resultatScore);
             scoreTotal += pointsGagnes;
-            System.out.println("\nRésultat de la manche :\n");
-            System.out.println("Combinaison utilisée : " + resultatScore);
-            System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
-            System.out.println("Score de cette manche : " + pointsGagnes + " points");
-            System.out.println("Score total : " + scoreTotal + " points");
-
-            // Afficher les combinaisons restantes
-            int combinaisonsRestantes = 0;
-            for (boolean utilisee : combinaisonsUtilisees) {
-                if (!utilisee) combinaisonsRestantes++;
-            }
-            System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
+            int combinaisonsRestantes = compterCombinaisonsRestantes(combinaisonsUtilisees);
+            afficherResumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes);
+            // Continuer vers la manche suivante si il en reste
             if (combinaisonsRestantes > 0) {
-                System.out.println("\nAppuyez sur Entrée pour continuer vers la manche suivante...");
-                scanner.nextLine(); // consommer le retour à la ligne du nextInt()
-                scanner.nextLine(); // attendre que l'utilisateur appuie sur Entrée
+                attendreContinuer(scanner);
             }
             manche++;
-            System.out.println(); // ligne vide pour séparer les manches
+            System.out.println();
         }
     }
 }
