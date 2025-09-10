@@ -5,8 +5,6 @@ Date : 20.08.2025
  */
 
 import java.util.Scanner;
-
-
 public class YahtzeeProcedural {
 
     /**
@@ -344,8 +342,6 @@ public class YahtzeeProcedural {
                 System.out.println("\nJet après relance " + tour + " :");
                 afficherDe(des);
             }
-
-
             System.out.println("\nJet final :");
             afficherDe(des);
             int[] occurences = nombreOccurences(des);
@@ -364,7 +360,6 @@ public class YahtzeeProcedural {
                     break;
                 }
             }
-
             if (!combinaisonDisponible) {
                 System.out.println("\nToutes les combinaisons ont été utilisées !");
                 System.out.println("Score total final : " + scoreTotal + " points");
@@ -377,7 +372,6 @@ public class YahtzeeProcedural {
             // Demander le choix de l'utilisateur avec validation
             int choix;
             int indexReel = -1;
-
             while (indexReel == -1) {
                 System.out.print("Saisir le numéro de la combinaison désirée : ");
                 try {
@@ -405,9 +399,7 @@ public class YahtzeeProcedural {
                 String pointsStr = parties[1].replace(" pts", "");
                 pointsGagnes = Integer.parseInt(pointsStr);
             }
-
             scoreTotal += pointsGagnes;
-
             System.out.println("\nRésultat de la manche :\n");
             System.out.println("Combinaison utilisée : " + resultatScore);
             System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
@@ -420,13 +412,11 @@ public class YahtzeeProcedural {
                 if (!utilisee) combinaisonsRestantes++;
             }
             System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
-
             if (combinaisonsRestantes > 0) {
                 System.out.println("\nAppuyez sur Entrée pour continuer vers la manche suivante...");
                 scanner.nextLine(); // consommer le retour à la ligne du nextInt()
                 scanner.nextLine(); // attendre que l'utilisateur appuie sur Entrée
             }
-
             manche++;
             System.out.println(); // ligne vide pour séparer les manches
         }
