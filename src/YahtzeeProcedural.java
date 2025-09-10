@@ -124,6 +124,38 @@ public class YahtzeeProcedural {
     }
 
     /**
+     * Permet de savoir si l'on a fait un brelan.
+     *
+     * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static int brelan(int[] listeDes) {
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int i = 0; i < nombreOccurences.length; i++) {
+            if (nombreOccurences[i] >= 3) {
+                return (i + 1) * 3;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Permet de savoir si l'on a fait un carré.
+     *
+     * @param listeDes prend en compte la liste de dés lancé.
+     * @return vrai ou faux selon les lancer de dés.
+     */
+    private static int carre(int[] listeDes) {
+        int[] nombreOccurences = nombreOccurences(listeDes);
+        for (int i = 0; i < nombreOccurences.length; i++) {
+            if (nombreOccurences[i] >= 4) {
+                return (i + 1) * 4;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Permet de savoir si l'on a fait un Full House.
      *
      * @param listeDes prend en compte la liste de dés lancé.
@@ -225,21 +257,11 @@ public class YahtzeeProcedural {
                 yield "Deux paires : " + point + " pts";
             }
             case BRELAN -> {
-                for (int i = 0; i < memeFace.length; i++) {
-                    if (memeFace[i] >= 3) {
-                        point = (i + 1) * 3;
-                        break;
-                    }
-                }
+                point = brelan(des);
                 yield "Brelan : " + point + " pts";
             }
             case CARRE -> {
-                for (int i = 0; i < memeFace.length; i++) {
-                    if (memeFace[i] >= 4) {
-                        point = (i + 1) * 4;
-                        break;
-                    }
-                }
+                point = carre(des);
                 yield "Carré : " + point + " pts";
             }
             case FULL_HOUSE -> {
