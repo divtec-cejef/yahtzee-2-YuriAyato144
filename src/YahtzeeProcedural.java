@@ -416,13 +416,13 @@ public class YahtzeeProcedural {
      * @param scoreTotal            score total actuel.
      * @param combinaisonsRestantes nombre de combinaisons encore disponibles.
      */
-    private static void afficherResumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes) {
-        System.out.println("\nRésultat de la manche :\n");
-        System.out.println("Combinaison utilisée : " + resultatScore);
-        System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
-        System.out.println("Score de cette manche : " + pointsGagnes + " points");
-        System.out.println("Score total : " + scoreTotal + " points");
-        System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
+    private static void resumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes) {
+//        System.out.println("\nRésultat de la manche :\n");
+//        System.out.println("Combinaison utilisée : " + resultatScore);
+//        System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
+//        System.out.println("Score de cette manche : " + pointsGagnes + " points");
+        System.out.println("\nScore total : " + scoreTotal + " points");
+//        System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
     }
 
     /**
@@ -467,7 +467,7 @@ public class YahtzeeProcedural {
         int manche = 1;
         System.out.println("Vous avez " + Combinaison.values().length + " combinaisons à compléter.\n");
         // Boucle "infini"
-        while (true) {
+        do {
             // Jouer une manche complète
             int[] des = jouerManche();
             // Vérifie s'il reste des combinaisons disponibles
@@ -485,13 +485,13 @@ public class YahtzeeProcedural {
             int pointsGagnes = extrairePoints(resultatScore);
             scoreTotal += pointsGagnes;
             int combinaisonsRestantes = compterCombinaisonsRestantes(combinaisonsUtilisees);
-            afficherResumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes);
+            resumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes);
             // Continuer vers la manche suivante si il en reste
             if (combinaisonsRestantes > 0) {
                 attendreContinuer(scanner);
             }
             manche++;
             System.out.println();
-        }
+        } while (manche <= 5);
     }
 }
