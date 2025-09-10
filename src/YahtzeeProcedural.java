@@ -246,6 +246,7 @@ public class YahtzeeProcedural {
      */
     private static String score(Combinaison combinaison, int[] des) {
         int point = 0;
+        int[] memeFace = nombreOccurences(des);
         return switch (combinaison) {
             case UNE_PAIRE -> {
                 if (unePaire(des)) point = 5;
@@ -256,11 +257,21 @@ public class YahtzeeProcedural {
                 yield "Deux paires : " + point + " pts";
             }
             case BRELAN -> {
-                if (brelan(des)) point = 20;
+                for (int i = 0; i < memeFace.length; i++) {
+                    if (memeFace[i] >= 3) {
+                        point = (i + 1) * 3;
+                        break;
+                    }
+                }
                 yield "Brelan : " + point + " pts";
             }
             case CARRE -> {
-                if (carre(des)) point = 30;
+                for (int i = 0; i < memeFace.length; i++) {
+                    if (memeFace[i] >= 4) {
+                        point = (i + 1) * 4;
+                        break;
+                    }
+                }
                 yield "Carré : " + point + " pts";
             }
             case FULL_HOUSE -> {
