@@ -124,38 +124,6 @@ public class YahtzeeProcedural {
     }
 
     /**
-     * Permet de savoir si l'on a fait un brelan.
-     *
-     * @param listeDes prend en compte la liste de dés lancé.
-     * @return vrai ou faux selon les lancer de dés.
-     */
-    private static boolean brelan(int[] listeDes) {
-        int[] nombreOccurences = nombreOccurences(listeDes);
-        for (int occurrence : nombreOccurences) {
-            if (occurrence >= 3) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Permet de savoir si l'on a fait un carré.
-     *
-     * @param listeDes prend en compte la liste de dés lancé.
-     * @return vrai ou faux selon les lancer de dés.
-     */
-    private static boolean carre(int[] listeDes) {
-        int[] nombreOccurences = nombreOccurences(listeDes);
-        for (int occurrence : nombreOccurences) {
-            if (occurrence >= 4) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Permet de savoir si l'on a fait un Full House.
      *
      * @param listeDes prend en compte la liste de dés lancé.
