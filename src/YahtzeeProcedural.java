@@ -422,12 +422,10 @@ public class YahtzeeProcedural {
     /**
      * Affiche le résumé d'une manche avec les points gagnés et le score total.
      *
-     * @param resultatScore         chaîne formatée du score de la combinaison.
-     * @param pointsGagnes          points gagnés cette manche.
-     * @param scoreTotal            score total actuel.
-     * @param combinaisonsRestantes nombre de combinaisons encore disponibles.
+     * @param scoreTotal  score total actuel.
+     * @param dernierTour permet de savoir si c'est le dernier tour ou non.
      */
-    private static void resumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes, int dernierTour) {
+    private static void resumeManche(int scoreTotal, int dernierTour) {
         if (dernierTour > 4) {
             System.out.println("\nScore total : " + scoreTotal + " points");
         } else {
@@ -484,7 +482,7 @@ public class YahtzeeProcedural {
             scoreTotal += pointsGagnes;
             int combinaisonsRestantes = compterCombinaisonsRestantes(combinaisonsUtilisees);
             int dernierTour = manche;
-            resumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes, dernierTour);
+            resumeManche(scoreTotal, dernierTour);
             manche++;
             System.out.println();
         } while (manche <= 5);
