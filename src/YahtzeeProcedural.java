@@ -416,13 +416,12 @@ public class YahtzeeProcedural {
      * @param scoreTotal            score total actuel.
      * @param combinaisonsRestantes nombre de combinaisons encore disponibles.
      */
-    private static void resumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes) {
-//        System.out.println("\nRésultat de la manche :\n");
-//        System.out.println("Combinaison utilisée : " + resultatScore);
-//        System.out.println("Cette combinaison ne sera plus disponible pour les prochaines manches.");
-//        System.out.println("Score de cette manche : " + pointsGagnes + " points");
-        System.out.println("\nScore total : " + scoreTotal + " points");
-//        System.out.println("Combinaisons restantes : " + combinaisonsRestantes);
+    private static void resumeManche(String resultatScore, int pointsGagnes, int scoreTotal, int combinaisonsRestantes, int dernierTour) {
+        if (dernierTour > 4) {
+            System.out.println("\nScore total : " + scoreTotal + " points");
+        } else {
+            System.out.println("\nScore actuel : " + scoreTotal + " points");
+        }
     }
 
     /**
@@ -440,17 +439,6 @@ public class YahtzeeProcedural {
     }
 
     /**
-     * Attend que l'utilisateur appuie sur Entrée pour continuer.
-     *
-     * @param scanner scanner pour lire l'entrée utilisateur.
-     */
-    private static void attendreContinuer(Scanner scanner) {
-        System.out.println("\nAppuyez sur Entrée pour continuer vers la manche suivante...");
-        scanner.nextLine(); // consommer le retour à la ligne du nextInt()
-        scanner.nextLine(); // attendre que l'utilisateur appuie sur Entrée
-    }
-
-    /**
      * Affiche le message de fin de partie avec le score final.
      *
      * @param scoreTotal score final du joueur.
@@ -465,7 +453,6 @@ public class YahtzeeProcedural {
         boolean[] combinaisonsUtilisees = new boolean[Combinaison.values().length];
         int scoreTotal = 0;
         int manche = 1;
-        System.out.println("Vous avez " + Combinaison.values().length + " combinaisons à compléter.\n");
         // Boucle "infini"
         do {
             // Jouer une manche complète
@@ -485,11 +472,8 @@ public class YahtzeeProcedural {
             int pointsGagnes = extrairePoints(resultatScore);
             scoreTotal += pointsGagnes;
             int combinaisonsRestantes = compterCombinaisonsRestantes(combinaisonsUtilisees);
-            resumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes);
-            // Continuer vers la manche suivante si il en reste
-            if (combinaisonsRestantes > 0) {
-                attendreContinuer(scanner);
-            }
+            int dernierTour = manche;
+            resumeManche(resultatScore, pointsGagnes, scoreTotal, combinaisonsRestantes, dernierTour);
             manche++;
             System.out.println();
         } while (manche <= 5);
