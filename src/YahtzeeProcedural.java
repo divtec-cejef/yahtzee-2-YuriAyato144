@@ -204,7 +204,6 @@ public class YahtzeeProcedural {
         for (int de : listeDes) {
             present[de - 1] = true;
         }
-        // suite 1-2-3-4-5 ou 2-3-4-5-6
         return (present[0] && present[1] && present[2] && present[3] && present[4]) ||
                 (present[1] && present[2] && present[3] && present[4] && present[5]);
     }
@@ -327,7 +326,7 @@ public class YahtzeeProcedural {
         int manche = 1;
         System.out.println("Vous avez " + Combinaison.values().length + " combinaisons à compléter.\n");
 
-        // Boucle principale du jeu - continue jusqu'à ce que toutes les combinaisons soient utilisées
+        // Boucle "infini"
         while (true) {
 
             // Lancer initial des dés
@@ -345,6 +344,7 @@ public class YahtzeeProcedural {
                 System.out.println("\nJet après relance " + tour + " :");
                 afficherDe(des);
             }
+
 
             System.out.println("\nJet final :");
             afficherDe(des);
@@ -430,7 +430,5 @@ public class YahtzeeProcedural {
             manche++;
             System.out.println(); // ligne vide pour séparer les manches
         }
-
-        scanner.close();
     }
 }
