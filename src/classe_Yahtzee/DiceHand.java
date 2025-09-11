@@ -1,7 +1,9 @@
 package classe_Yahtzee;
 
 public class DiceHand {
-    private int[] nombreOccurences(int[] listeDes) {
+    private int[] nombreOccurences;
+
+    public int[] nombreOccurences(int[] listeDes) {
         int[] nombreOccurences = new int[6];
         for (int nombre : listeDes) {
             nombreOccurences[nombre - 1]++;
@@ -9,7 +11,7 @@ public class DiceHand {
         return nombreOccurences;
     }
 
-    private boolean unePaire(int[] listeDes) {
+    public boolean unePaire(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
             if (occurrence >= 2) {
@@ -19,7 +21,7 @@ public class DiceHand {
         return false;
     }
 
-    private boolean deuxPaires(int[] listeDes) {
+    public boolean deuxPaires(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         int compteur = 0;
         for (int occurrence : nombreOccurences) {
@@ -30,7 +32,7 @@ public class DiceHand {
         return compteur >= 2;
     }
 
-    private int brelan(int[] listeDes) {
+    public int brelan(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int i = 0; i < nombreOccurences.length; i++) {
             if (nombreOccurences[i] >= 3) {
@@ -40,7 +42,7 @@ public class DiceHand {
         return 0;
     }
 
-    private int carre(int[] listeDes) {
+    public int carre(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int i = 0; i < nombreOccurences.length; i++) {
             if (nombreOccurences[i] >= 4) {
@@ -50,7 +52,7 @@ public class DiceHand {
         return 0;
     }
 
-    private boolean fullHouse(int[] listeDes) {
+    public boolean fullHouse(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         boolean aDeux = false;
         boolean aTrois = false;
@@ -65,7 +67,7 @@ public class DiceHand {
         return aDeux && aTrois;
     }
 
-    private boolean petiteSuite(int[] listeDes) {
+    public boolean petiteSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
         for (int de : listeDes) {
             present[de - 1] = true;
@@ -75,7 +77,7 @@ public class DiceHand {
                 (present[2] && present[3] && present[4] && present[5]);
     }
 
-    private boolean grandeSuite(int[] listeDes) {
+    public boolean grandeSuite(int[] listeDes) {
         boolean[] present = new boolean[6];
         for (int de : listeDes) {
             present[de - 1] = true;
@@ -84,7 +86,7 @@ public class DiceHand {
                 (present[1] && present[2] && present[3] && present[4] && present[5]);
     }
 
-    private boolean yahtzee(int[] listeDes) {
+    public boolean yahtzee(int[] listeDes) {
         int[] nombreOccurences = nombreOccurences(listeDes);
         for (int occurrence : nombreOccurences) {
             if (occurrence == 5) {

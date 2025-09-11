@@ -9,41 +9,41 @@ public enum Category {
     PETITE_SUITE,
     GRANDE_SUITE,
     YAHTZEE;
-Round round = new Round();
+DiceHand diceHand = new DiceHand();
     private String score(Category combinaison, int[] des) {
         int point = 0;
-        int[] memeFace = round.nombreOccurences(des);
+        int[] memeFace = diceHand.nombreOccurences(des);
         return switch (combinaison) {
             case UNE_PAIRE -> {
-                if (unePaire(des)) point = 5;
+                if (diceHand.unePaire(des)) point = 5;
                 yield "Une paire : " + point + " pts";
             }
             case DEUX_PAIRES -> {
-                if (deuxPaires(des)) point = 15;
+                if (diceHand.deuxPaires(des)) point = 15;
                 yield "Deux paires : " + point + " pts";
             }
             case BRELAN -> {
-                point = brelan(des);
+                point = diceHand.brelan(des);
                 yield "Brelan : " + point + " pts";
             }
             case CARRE -> {
-                point = carre(des);
+                point = diceHand.carre(des);
                 yield "Carré : " + point + " pts";
             }
             case FULL_HOUSE -> {
-                if (fullHouse(des)) point = 25;
+                if (diceHand.fullHouse(des)) point = 25;
                 yield "Full house : " + point + " pts";
             }
             case PETITE_SUITE -> {
-                if (petiteSuite(des)) point = 30;
+                if (diceHand.petiteSuite(des)) point = 30;
                 yield "Petite suite : " + point + " pts";
             }
             case GRANDE_SUITE -> {
-                if (grandeSuite(des)) point = 40;
+                if (diceHand.grandeSuite(des)) point = 40;
                 yield "Grande suite : " + point + " pts";
             }
             case YAHTZEE -> {
-                if (yahtzee(des)) point = 50;
+                if (diceHand.yahtzee(des)) point = 50;
                 yield "Yahtzee : " + point + " pts";
             }
         };
