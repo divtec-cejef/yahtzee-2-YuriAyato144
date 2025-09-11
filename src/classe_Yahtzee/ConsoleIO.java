@@ -5,12 +5,13 @@ public class ConsoleIO {
 
     public void demandeRelancement() {
         int[] des = round.lancerPlusieursDe(); // Lancer 5 dés au début
-        round.afficherDe(des); // Afficher les dés
+        System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
+
 
         for (int i = 0; i < 2; i++) { // 2 relances possibles
             int[] relancerIndexes = round.demandeRelancementDe();
             if (relancerIndexes.length == 0) {
-                break;
+                System.out.print("Jet " + (round.afficher + 1) + " : " + round.listeDe[round.afficher] + "\n");
             }
             round.relancerDe(des, relancerIndexes);
             round.afficherDe(des);
