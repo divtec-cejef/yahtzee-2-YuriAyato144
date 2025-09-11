@@ -10,7 +10,7 @@ public enum Category {
     GRANDE_SUITE,
     YAHTZEE;
 DiceHand diceHand = new DiceHand();
-    private String score(Category combinaison, int[] des) {
+    public String score(Category combinaison, int[] des) {
         int point = 0;
         int[] memeFace = diceHand.nombreOccurences(des);
         return switch (combinaison) {

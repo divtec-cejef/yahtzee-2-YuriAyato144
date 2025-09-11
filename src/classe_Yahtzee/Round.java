@@ -3,7 +3,7 @@ package classe_Yahtzee;
 import java.util.Scanner;
 
 public class Round {
-    private int[] demandeRelancementDe() {
+    public int[] demandeRelancementDe() {
         System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
         Scanner scanner = new Scanner(System.in);
         String ligne = scanner.nextLine().trim();
@@ -18,25 +18,25 @@ public class Round {
         return index;
     }
 
-    private int lancerDe() {
+    public int lancerDe() {
         int nombreFace = 6;
         return (int) (Math.random() * nombreFace) + 1;
     }
 
-    private int[] lancerPlusieursDe() {
+    public int[] lancerPlusieursDe() {
         int[] nombreDe = new int[5];
         for (int lancer = 0; lancer < nombreDe.length; lancer++) {
             nombreDe[lancer] = lancerDe();
         }
         return nombreDe;
     }
-    private void afficherDe(int[] listeDe) {
+    public void afficherDe(int[] listeDe) {
         for (int afficher = 0; afficher < listeDe.length; afficher++) {
             System.out.print("Jet " + (afficher + 1) + " : " + listeDe[afficher] + "\n");
         }
     }
 
-    private void relancerDe(int[] des, int[] indexsRelancer) {
+    public void relancerDe(int[] des, int[] indexsRelancer) {
         for (int index : indexsRelancer) {
             if (index >= 0 && index < des.length) {
                 des[index] = lancerDe(); // Relancer le dé à la bonne position
