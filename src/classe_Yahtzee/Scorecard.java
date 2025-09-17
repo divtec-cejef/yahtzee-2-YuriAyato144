@@ -1,11 +1,11 @@
 package classe_Yahtzee;
 
 public class Scorecard {
-    DiceHand diceHand = new DiceHand();
+    private final DiceHand diceHand = new DiceHand();
 
     public String score(Category combinaison, int[] des) {
         int point = 0;
-        int[] memeFace = diceHand.nombreOccurences(des);
+
         return switch (combinaison) {
             case UNE_PAIRE -> {
                 if (diceHand.unePaire(des)) point = 5;
