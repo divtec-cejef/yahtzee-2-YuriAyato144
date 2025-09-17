@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Round {
     public int[] demandeRelancementDe() {
-        //System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
         Scanner scanner = new Scanner(System.in);
         String ligne = scanner.nextLine().trim();
         if (ligne.equals("0") || ligne.isEmpty()) {
@@ -32,7 +31,6 @@ public class Round {
     }
     public void afficherDe(int[] listeDe) {
         for (int afficher = 0; afficher < listeDe.length; afficher++) {
-            //System.out.print("Jet " + (afficher + 1) + " : " + listeDe[afficher] + "\n");
         }
     }
 
