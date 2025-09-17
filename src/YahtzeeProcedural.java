@@ -292,7 +292,6 @@ public class YahtzeeProcedural {
     private static void afficherCombinaisonsDisponibles(int[] des, boolean[] combinaisonsUtilisees) {
         System.out.println("\nCombinisons disponibles :");
         int numeroAffichage = 1;
-
         for (int i = 0; i < Combinaison.values().length; i++) {
             if (!combinaisonsUtilisees[i]) {
                 Combinaison combinaisonScore = Combinaison.values()[i];
@@ -332,7 +331,6 @@ public class YahtzeeProcedural {
         int[] des = lancerPlusieursDe();
         System.out.println("Lancer initial :");
         afficherDe(des);
-
         // Permettre jusqu'à 2 relances
         for (int tour = 1; tour <= 2; tour++) {
             int[] relance = demandeRelancementDe();
@@ -372,7 +370,6 @@ public class YahtzeeProcedural {
     private static int choisirCombinaison(int[] des, boolean[] combinaisonsUtilisees, Scanner scanner) {
         // Afficher uniquement les combinaisons disponibles
         afficherCombinaisonsDisponibles(des, combinaisonsUtilisees);
-
         // Demander le choix de l'utilisateur avec validation
         int choix;
         int indexReel = -1;

@@ -4,7 +4,6 @@ public class DiceHand {
     private int[] nombreOccurences;
 
     public int[] nombreOccurences(int[] listeDes) {
-        int[] nombreOccurences = new int[6];
         for (int nombre : listeDes) {
             nombreOccurences[nombre - 1]++;
         }
