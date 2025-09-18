@@ -22,14 +22,14 @@ public class Scorecard {
         }
     }
 
-    public boolean estCategorieUtilisee(Category category) {
-        for (ScoreEntry entry : entries) {
-            if (entry.getCategory() == category) {
-                return entry.isUsed();
-            }
-        }
-        return false;
-    }
+//    public boolean estCategorieUtilisee(Category category) {
+//        for (ScoreEntry entry : entries) {
+//            if (entry.getCategory() == category) {
+//                return entry.isUsed();
+//            }
+//        }
+//        return false;
+//    }
 
     public List<Category> getCategoriesDisponibles() {
         List<Category> disponibles = new ArrayList<>();

@@ -14,7 +14,7 @@ public class Game {
     public void jouerPartie() {
         // Une partie complète comprend 5 manches selon les contraintes
         for (int manche = 1; manche <= 5; manche++) {
-            consoleIO.afficherMessage("\n Manche " + manche);
+            consoleIO.afficherMessage("\nManche " + manche + "\n");
             jouerManche();
 
             consoleIO.afficherMessage("Score total après manche " + manche + ": " +

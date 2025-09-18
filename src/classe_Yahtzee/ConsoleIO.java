@@ -13,7 +13,7 @@ public class ConsoleIO {
     public void afficherDes(DiceHand diceHand) {
         int[] values = diceHand.getValues();
         for (int i = 0; i < values.length; i++) {
-            System.out.print("jet " +(i + 1) + " : " + values[i] + "\n");
+            System.out.print("jet " + (i + 1) + " : " + values[i] + "\n");
         }
         System.out.println();
     }
