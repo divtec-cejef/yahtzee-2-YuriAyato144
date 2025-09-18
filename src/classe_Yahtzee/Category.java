@@ -1,25 +1,35 @@
 package classe_Yahtzee;
 
 public enum Category {
-    UNE_PAIRE,
-    DEUX_PAIRES,
-    BRELAN,
-    CARRE,
-    FULL_HOUSE,
-    PETITE_SUITE,
-    GRANDE_SUITE,
-    YAHTZEE;
+    UNE_PAIRE("Une paire"),
+    DEUX_PAIRES("Deux paires"),
+    BRELAN("Brelan"),
+    CARRE("Carré"),
+    FULL_HOUSE("Full House"),
+    PETITE_SUITE("Petite suite"),
+    GRANDE_SUITE("Grande suite"),
+    YAHTZEE("Yahtzee");
 
-    private static final Scorecard scoreCard = new Scorecard();
+    private final String nom;
 
-    public void afficherCombinaisonsDisponibles(int[] des, boolean[] combinaisonsUtilisees) {
-        System.out.println("\nCombinaisons disponibles :");
-        int numeroAffichage = 1;
-        for (int i = 0; i < Category.values().length; i++) {
-            if (!combinaisonsUtilisees[i]) {
-                System.out.println(numeroAffichage + ". " + scoreCard.score(Category.values()[i], des));
-                numeroAffichage++;
-            }
-        }
+    Category(String nom) {
+        this.nom = nom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public int score(DiceHand hand) {
+        return switch (this) {
+            case UNE_PAIRE -> hand.unePaire() ? 5 : 0;
+            case DEUX_PAIRES -> hand.deuxPaires() ? 10 : 0;
+            case BRELAN -> hand.brelan() ? hand.sommeDes() : 0;
+            case CARRE -> hand.carre() ? hand.sommeDes() : 0;
+            case FULL_HOUSE -> hand.fullHouse() ? 25 : 0;
+            case PETITE_SUITE -> hand.petiteSuite() ? 30 : 0;
+            case GRANDE_SUITE -> hand.grandeSuite() ? 40 : 0;
+            case YAHTZEE -> hand.yahtzee() ? 50 : 0;
+        };
     }
 }

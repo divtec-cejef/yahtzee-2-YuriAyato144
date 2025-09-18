@@ -1,44 +1,57 @@
 package classe_Yahtzee;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Scorecard {
-    private final DiceHand diceHand = new DiceHand();
+    private List<ScoreEntry> entries;
 
-    public String score(Category combinaison, int[] des) {
-        int point = 0;
+    public Scorecard() {
+        entries = new ArrayList<>();
+        for (Category category : Category.values()) {
+            entries.add(new ScoreEntry(category));
+        }
+    }
 
-        return switch (combinaison) {
-            case UNE_PAIRE -> {
-                if (diceHand.unePaire(des)) point = 5;
-                yield "Une paire : " + point + " pts";
+    public void enregistrerScore(Category category, int score) {
+        for (ScoreEntry entry : entries) {
+            if (entry.getCategory() == category && !entry.isUsed()) {
+                entry.setScore(score);
+                break;
             }
-            case DEUX_PAIRES -> {
-                if (diceHand.deuxPaires(des)) point = 15;
-                yield "Deux paires : " + point + " pts";
+        }
+    }
+
+    public boolean estCategorieUtilisee(Category category) {
+        for (ScoreEntry entry : entries) {
+            if (entry.getCategory() == category) {
+                return entry.isUsed();
             }
-            case BRELAN -> {
-                point = diceHand.brelan(des);
-                yield "Brelan : " + point + " pts";
+        }
+        return false;
+    }
+
+    public List<Category> getCategoriesDisponibles() {
+        List<Category> disponibles = new ArrayList<>();
+        for (ScoreEntry entry : entries) {
+            if (!entry.isUsed()) {
+                disponibles.add(entry.getCategory());
             }
-            case CARRE -> {
-                point = diceHand.carre(des);
-                yield "Carré : " + point + " pts";
+        }
+        return disponibles;
+    }
+
+    public int getScoreTotal() {
+        int total = 0;
+        for (ScoreEntry entry : entries) {
+            if (entry.isUsed()) {
+                total += entry.getScore();
             }
-            case FULL_HOUSE -> {
-                if (diceHand.fullHouse(des)) point = 25;
-                yield "Full house : " + point + " pts";
-            }
-            case PETITE_SUITE -> {
-                if (diceHand.petiteSuite(des)) point = 30;
-                yield "Petite suite : " + point + " pts";
-            }
-            case GRANDE_SUITE -> {
-                if (diceHand.grandeSuite(des)) point = 40;
-                yield "Grande suite : " + point + " pts";
-            }
-            case YAHTZEE -> {
-                if (diceHand.yahtzee(des)) point = 50;
-                yield "Yahtzee : " + point + " pts";
-            }
-        };
+        }
+        return total;
+    }
+
+    public List<ScoreEntry> getEntries() {
+        return new ArrayList<>(entries); // Copie défensive
     }
 }
