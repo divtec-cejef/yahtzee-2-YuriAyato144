@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scorecard {
-    private List<ScoreEntry> entries;
+    private List<ScoreEntry> entrer;
 
     public Scorecard() {
-        entries = new ArrayList<>();
+        entrer = new ArrayList<>();
         for (Category category : Category.values()) {
-            entries.add(new ScoreEntry(category));
+            entrer.add(new ScoreEntry(category));
         }
     }
 
     public void enregistrerScore(Category category, int score) {
-        for (ScoreEntry entry : entries) {
+        for (ScoreEntry entry : entrer) {
             if (entry.getCategory() == category && !entry.isUsed()) {
                 entry.setScore(score);
                 break;
@@ -23,7 +23,7 @@ public class Scorecard {
     }
 
 //    public boolean estCategorieUtilisee(Category category) {
-//        for (ScoreEntry entry : entries) {
+//        for (ScoreEntry entry : entrer) {
 //            if (entry.getCategory() == category) {
 //                return entry.isUsed();
 //            }
@@ -33,7 +33,7 @@ public class Scorecard {
 
     public List<Category> getCategoriesDisponibles() {
         List<Category> disponibles = new ArrayList<>();
-        for (ScoreEntry entry : entries) {
+        for (ScoreEntry entry : entrer) {
             if (!entry.isUsed()) {
                 disponibles.add(entry.getCategory());
             }
@@ -43,7 +43,7 @@ public class Scorecard {
 
     public int getScoreTotal() {
         int total = 0;
-        for (ScoreEntry entry : entries) {
+        for (ScoreEntry entry : entrer) {
             if (entry.isUsed()) {
                 total += entry.getScore();
             }
@@ -52,6 +52,6 @@ public class Scorecard {
     }
 
     public List<ScoreEntry> getEntries() {
-        return new ArrayList<>(entries); // Copie défensive
+        return new ArrayList<>(entrer); // Copie défensive
     }
 }

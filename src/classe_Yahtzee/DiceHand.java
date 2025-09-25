@@ -62,24 +62,26 @@ public class DiceHand {
         return pairesCount >= 2;
     }
 
-    public boolean brelan() {
+    public int brelan() {
         int[] occurrences = compterOccurrences();
-        for (int occurrence : occurrences) {
-            if (occurrence >= 3) {
-                return true;
+        for (int i = 0; i < occurrences.length; i++) {
+            if (occurrences[i] >= 3) {
+                int valeurDe = i + 1;
+                return valeurDe * 3;
             }
         }
-        return false;
+        return 0;
     }
 
-    public boolean carre() {
+    public int carre() {
         int[] occurrences = compterOccurrences();
-        for (int occurrence : occurrences) {
-            if (occurrence >= 4) {
-                return true;
+        for (int i = 0; i < occurrences.length; i++) {
+            if (occurrences[i] >= 4) {
+                int valeurDe = i + 1;
+                return valeurDe * 4;
             }
         }
-        return false;
+        return 0;
     }
 
     public boolean fullHouse() {
@@ -122,13 +124,5 @@ public class DiceHand {
             }
         }
         return false;
-    }
-
-    public int sommeDes() {
-        int somme = 0;
-        for (int value : getValues()) {
-            somme += value;
-        }
-        return somme;
     }
 }

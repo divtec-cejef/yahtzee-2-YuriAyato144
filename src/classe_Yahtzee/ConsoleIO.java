@@ -2,6 +2,7 @@ package classe_Yahtzee;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class ConsoleIO {
     private Scanner scanner;
@@ -27,24 +28,22 @@ public class ConsoleIO {
         }
 
         String[] parties = ligne.split("\\s+");
-        int[] indices = new int[parties.length];
+        List<Integer> indicesValides = new ArrayList<>();
 
-        for (int i = 0; i < parties.length; i++) {
-            try {
-                int numero = Integer.parseInt(parties[i]);
-                if (numero >= 1 && numero <= 5) {
-                    indices[i] = numero - 1; // Convertir en index (0-4)
+        for (String partie : parties) {
+            if (estNombreValide(partie)) {
+                int numero = convertirEnNombre(partie);
+                if (estDansPlage(numero, 1, 5)) {
+                    indicesValides.add(numero - 1);
                 } else {
                     System.out.println("Numéro invalide ignoré: " + numero);
-                    indices[i] = -1; // Marquer comme invalide
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrée invalide ignorée: " + parties[i]);
-                indices[i] = -1; // Marquer comme invalide
+            } else {
+                System.out.println("Entrée invalide ignorée: " + partie);
             }
         }
 
-        return indices;
+        return indicesValides.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public void afficherScoresPossibles(DiceHand diceHand, List<Category> categoriesDisponibles) {
@@ -56,33 +55,67 @@ public class ConsoleIO {
         }
     }
 
-    public Category demanderCategorie(List<Category> categoriesDisponibles) {
+    public Category demanderCategorie(List<Category> categoriesDisponibles, DiceHand diceHand) {
         System.out.println("Choisissez une catégorie ou appuyez sur Entrée pour la meilleure : ");
         String choix = scanner.nextLine().trim();
 
         if (choix.isEmpty()) {
-            // Retourner la catégorie avec le meilleur score
-            return trouverMeilleureCategorie(categoriesDisponibles);
+            return trouverMeilleureCategorie(categoriesDisponibles, diceHand);
         }
 
-        try {
-            int index = Integer.parseInt(choix) - 1;
-            if (index >= 0 && index < categoriesDisponibles.size()) {
+        if (estNombreValide(choix)) {
+            int index = convertirEnNombre(choix) - 1;
+            if (estDansPlage(index, 0, categoriesDisponibles.size() - 1)) {
                 return categoriesDisponibles.get(index);
             } else {
                 System.out.println("Choix invalide, sélection automatique de la meilleure catégorie.");
-                return trouverMeilleureCategorie(categoriesDisponibles);
+                return trouverMeilleureCategorie(categoriesDisponibles, diceHand);
             }
-        } catch (NumberFormatException e) {
+        } else {
             System.out.println("Entrée invalide, sélection automatique de la meilleure catégorie.");
-            return trouverMeilleureCategorie(categoriesDisponibles);
+            return trouverMeilleureCategorie(categoriesDisponibles, diceHand);
         }
     }
 
-    private Category trouverMeilleureCategorie(List<Category> categories) {
-        // Pour cette implémentation simple, on retourne la première catégorie
-        // Dans une version plus sophistiquée, on calculerait le meilleur score
-        return categories.get(0);
+    private boolean estNombreValide(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+
+        // Vérifier si tous les caractères sont des chiffres
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int convertirEnNombre(String str) {
+        int resultat = 0;
+        for (char c : str.toCharArray()) {
+            resultat = resultat * 10 + (c - '0');
+        }
+        return resultat;
+    }
+
+    private boolean estDansPlage(int valeur, int min, int max) {
+        return valeur >= min && valeur <= max;
+    }
+
+    private Category trouverMeilleureCategorie(List<Category> categories, DiceHand diceHand) {
+        Category meilleureCategorie = categories.get(0);
+        int meilleurScore = meilleureCategorie.score(diceHand);
+
+        for (Category categorie : categories) {
+            int scoreActuel = categorie.score(diceHand);
+            if (scoreActuel > meilleurScore) {
+                meilleurScore = scoreActuel;
+                meilleureCategorie = categorie;
+            }
+        }
+
+        return meilleureCategorie;
     }
 
     public void afficherFeuilleScore(Scorecard scorecard) {
@@ -100,4 +133,5 @@ public class ConsoleIO {
     public void afficherMessage(String message) {
         System.out.println(message);
     }
+
 }

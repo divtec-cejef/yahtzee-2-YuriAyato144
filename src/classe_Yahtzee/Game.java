@@ -12,7 +12,7 @@ public class Game {
     }
 
     public void jouerPartie() {
-        // Une partie complète comprend 5 manches selon les contraintes
+        // Une partie complète comprend 5 manches
         for (int manche = 1; manche <= 5; manche++) {
             consoleIO.afficherMessage("\nManche " + manche + "\n");
             jouerManche();
@@ -27,7 +27,6 @@ public class Game {
 
     private void jouerManche() {
         Round round = new Round();
-
         // Premier lancer
         round.lancerTousDes();
         consoleIO.afficherMessage("Premier lancer:");
@@ -39,7 +38,6 @@ public class Game {
             if (desARelancer.length == 0) {
                 break; // Le joueur ne veut plus relancer
             }
-
             round.relancerDes(desARelancer);
             consoleIO.afficherMessage("Lancer " + (relance + 1) + ":");
             consoleIO.afficherDes(round.getDiceHand());
@@ -47,19 +45,19 @@ public class Game {
 
         // Afficher les scores possibles et demander le choix
         List<Category> categoriesDisponibles = player.getScorecard().getCategoriesDisponibles();
-
         if (categoriesDisponibles.isEmpty()) {
             consoleIO.afficherMessage("Toutes les catégories ont été utilisées!");
             return;
         }
 
         consoleIO.afficherScoresPossibles(round.getDiceHand(), categoriesDisponibles);
-        Category categorieChoisie = consoleIO.demanderCategorie(categoriesDisponibles);
+
+        // CORRECTION: Passer le DiceHand en paramètre
+        Category categorieChoisie = consoleIO.demanderCategorie(categoriesDisponibles, round.getDiceHand());
 
         // Calculer et enregistrer le score
         int score = categorieChoisie.score(round.getDiceHand());
         player.getScorecard().enregistrerScore(categorieChoisie, score);
-
         consoleIO.afficherMessage("Score obtenu: " + score + " pts pour " + categorieChoisie.getNom());
     }
 }

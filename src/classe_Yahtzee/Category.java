@@ -20,16 +20,46 @@ public enum Category {
         return nom;
     }
 
-    public int score(DiceHand hand) {
+    public int score(DiceHand diceHand) {
         return switch (this) {
-            case UNE_PAIRE -> hand.unePaire() ? 5 : 0;
-            case DEUX_PAIRES -> hand.deuxPaires() ? 10 : 0;
-            case BRELAN -> hand.brelan() ? hand.sommeDes() : 0;
-            case CARRE -> hand.carre() ? hand.sommeDes() : 0;
-            case FULL_HOUSE -> hand.fullHouse() ? 25 : 0;
-            case PETITE_SUITE -> hand.petiteSuite() ? 30 : 0;
-            case GRANDE_SUITE -> hand.grandeSuite() ? 40 : 0;
-            case YAHTZEE -> hand.yahtzee() ? 50 : 0;
+            case UNE_PAIRE -> {
+                int point = 0;
+                if (diceHand.unePaire()) point = 5;
+                yield point;
+            }
+            case DEUX_PAIRES -> {
+                int point = 0;
+                if (diceHand.deuxPaires()) point = 10;
+                yield point;
+            }
+            case BRELAN -> {
+                int point = 0;
+                yield diceHand.brelan();
+            }
+            case CARRE -> {
+                int point = 0;
+                yield diceHand.carre();
+            }
+            case FULL_HOUSE -> {
+                int point = 0;
+                if (diceHand.fullHouse()) point = 25;
+                yield point;
+            }
+            case PETITE_SUITE -> {
+                int point = 0;
+                if (diceHand.petiteSuite()) point = 30;
+                yield point;
+            }
+            case GRANDE_SUITE -> {
+                int point = 0;
+                if (diceHand.grandeSuite()) point = 40;
+                yield point;
+            }
+            case YAHTZEE -> {
+                int point = 0;
+                if (diceHand.yahtzee()) point = 50;
+                yield point;
+            }
         };
     }
 }
