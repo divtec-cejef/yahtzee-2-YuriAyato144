@@ -3,8 +3,8 @@ package classe_Yahtzee;
 import java.util.List;
 
 public class Game {
-    private Player player;
-    private ConsoleIO consoleIO;
+    private final Player player;
+    private final ConsoleIO consoleIO;
 
     public Game(ConsoleIO consoleIO) {
         this.consoleIO = consoleIO;
@@ -31,7 +31,6 @@ public class Game {
         round.lancerTousDes();
         consoleIO.afficherMessage("Premier lancer:");
         consoleIO.afficherDes(round.getDiceHand());
-
         // Jusqu'à 2 relances supplémentaires (3 lancers max total)
         for (int relance = 1; relance <= 2; relance++) {
             int[] desARelancer = consoleIO.demanderRelancement();
@@ -42,19 +41,14 @@ public class Game {
             consoleIO.afficherMessage("Lancer " + (relance + 1) + ":");
             consoleIO.afficherDes(round.getDiceHand());
         }
-
         // Afficher les scores possibles et demander le choix
         List<Category> categoriesDisponibles = player.getScorecard().getCategoriesDisponibles();
         if (categoriesDisponibles.isEmpty()) {
             consoleIO.afficherMessage("Toutes les catégories ont été utilisées!");
             return;
         }
-
         consoleIO.afficherScoresPossibles(round.getDiceHand(), categoriesDisponibles);
-
-        // CORRECTION: Passer le DiceHand en paramètre
         Category categorieChoisie = consoleIO.demanderCategorie(categoriesDisponibles, round.getDiceHand());
-
         // Calculer et enregistrer le score
         int score = categorieChoisie.score(round.getDiceHand());
         player.getScorecard().enregistrerScore(categorieChoisie, score);

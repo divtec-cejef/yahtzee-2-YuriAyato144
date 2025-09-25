@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class ConsoleIO {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public ConsoleIO() {
         this.scanner = new Scanner(System.in);
@@ -22,14 +22,11 @@ public class ConsoleIO {
     public int[] demanderRelancement() {
         System.out.println("Quels dés voulez-vous relancer ? (0 pour finir)");
         String ligne = scanner.nextLine().trim();
-
         if (ligne.isEmpty()) {
             return new int[0]; // Aucun dé à relancer
         }
-
         String[] parties = ligne.split("\\s+");
         List<Integer> indicesValides = new ArrayList<>();
-
         for (String partie : parties) {
             if (estNombreValide(partie)) {
                 int numero = convertirEnNombre(partie);
@@ -42,7 +39,6 @@ public class ConsoleIO {
                 System.out.println("Entrée invalide ignorée: " + partie);
             }
         }
-
         return indicesValides.stream().mapToInt(Integer::intValue).toArray();
     }
 
@@ -56,13 +52,12 @@ public class ConsoleIO {
     }
 
     public Category demanderCategorie(List<Category> categoriesDisponibles, DiceHand diceHand) {
-        System.out.println("Choisissez une catégorie ou appuyez sur Entrée pour la meilleure : ");
+        System.out.println("Choisissez une catégorie ou appuyez sur 0 pour la meilleure : ");
         String choix = scanner.nextLine().trim();
-
-        if (choix.isEmpty()) {
+        // Si l'entrée est égale à 0, choix automatique de la meilleure catégorie
+        if (choix.equals("0")) {
             return trouverMeilleureCategorie(categoriesDisponibles, diceHand);
         }
-
         if (estNombreValide(choix)) {
             int index = convertirEnNombre(choix) - 1;
             if (estDansPlage(index, 0, categoriesDisponibles.size() - 1)) {
@@ -81,7 +76,6 @@ public class ConsoleIO {
         if (str == null || str.isEmpty()) {
             return false;
         }
-
         // Vérifier si tous les caractères sont des chiffres
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c)) {
@@ -114,7 +108,6 @@ public class ConsoleIO {
                 meilleureCategorie = categorie;
             }
         }
-
         return meilleureCategorie;
     }
 
@@ -133,5 +126,4 @@ public class ConsoleIO {
     public void afficherMessage(String message) {
         System.out.println(message);
     }
-
 }

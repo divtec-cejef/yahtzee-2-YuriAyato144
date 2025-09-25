@@ -1,7 +1,7 @@
 package classe_Yahtzee;
 
 public class DiceHand {
-    private Die[] dice;
+    private final Die[] dice;
 
     public DiceHand() {
         dice = new Die[5];

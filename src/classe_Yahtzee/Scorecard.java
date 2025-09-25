@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scorecard {
-    private List<ScoreEntry> entrer;
+    private final List<ScoreEntry> entrer;
 
     public Scorecard() {
         entrer = new ArrayList<>();
@@ -21,15 +21,6 @@ public class Scorecard {
             }
         }
     }
-
-//    public boolean estCategorieUtilisee(Category category) {
-//        for (ScoreEntry entry : entrer) {
-//            if (entry.getCategory() == category) {
-//                return entry.isUsed();
-//            }
-//        }
-//        return false;
-//    }
 
     public List<Category> getCategoriesDisponibles() {
         List<Category> disponibles = new ArrayList<>();

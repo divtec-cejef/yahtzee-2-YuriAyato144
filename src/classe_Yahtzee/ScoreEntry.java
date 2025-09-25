@@ -1,7 +1,7 @@
 package classe_Yahtzee;
 
 public class ScoreEntry {
-    private Category category;
+    private final Category category;
     private int score;
     private boolean used;
 

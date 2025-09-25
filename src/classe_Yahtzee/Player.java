@@ -1,8 +1,8 @@
 package classe_Yahtzee;
 
 public class Player {
-    private String nom;
-    private Scorecard scorecard;
+    private final String nom;
+    private final Scorecard scorecard;
 
     public Player(String nom) {
         this.nom = nom;
