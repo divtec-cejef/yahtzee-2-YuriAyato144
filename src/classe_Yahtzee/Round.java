@@ -1,7 +1,7 @@
 package classe_Yahtzee;
 
 public class Round {
-    private DiceHand diceHand;
+    private final DiceHand diceHand;
 
     public Round() {
         this.diceHand = new DiceHand();
